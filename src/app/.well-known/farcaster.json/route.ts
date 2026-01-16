@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-    const appUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
+    // Use NEXT_PUBLIC_URL or fallback to production domain
+    const appUrl = process.env.NEXT_PUBLIC_URL || 'https://basebird.space';
 
     const config = {
         accountAssociation: {
-            header: "eyJmaWQiOjM2MjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgyY2Q4NWEwOTMyNjFmNTkyNzA4MDRBNkVBNjk3Q2VBNENlQkVjYWZFIn0",
-            payload: "eyJkb21haW4iOiJleGFtcGxlLmNvbSJ9", // TODO: Update with actual domain payload after deployment
-            signature: "MHgyY2Q4NWEwOTMyNjFmNTkyNzA4MDRBNkVBNjk3Q2VBNENlQkVjYWZF" // TODO: Update with actual signature after deployment
+            header: "eyJmaWQiOjg0MDgwNywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweEExQjgyYkQxOEUxNThjMUZGNkI3Nzc4NjgwNTc0Y2YyMUNmQTIzNTMifQ",
+            payload: "eyJkb21haW4iOiJiYXNlYmlyZC5zcGFjZSJ9",
+            signature: "/UnZosrcjJ7Nrjj6q4AAwfZQe1I/Yj7k62bL0j8eaOt9oukPmSxpUNUIVUkErBLQO8ybtg1+MyEZjD2e1nO0Ths="
         },
         miniapp: {
             version: "1",
