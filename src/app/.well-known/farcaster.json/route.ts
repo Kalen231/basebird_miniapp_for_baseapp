@@ -6,9 +6,9 @@ export async function GET() {
 
     const config = {
         accountAssociation: {
-            header: "eyJmaWQiOjg0MDgwNywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweEExQjgyYkQxOEUxNThjMUZGNkI3Nzc4NjgwNTc0Y2YyMUNmQTIzNTMifQ",
+            header: "eyJmaWQiOjg0MDgwNywidHlwZSI6ImF1dGgiLCJrZXkiOiIweGY4ZDJiMjYwRjBjOTFlZjgwNjU5YWNGQUFBOGE4NjhDMzRkZDRkNzEifQ",
             payload: "eyJkb21haW4iOiJiYXNlYmlyZC5zcGFjZSJ9",
-            signature: "/UnZosrcjJ7Nrjj6q4AAwfZQe1I/Yj7k62bL0j8eaOt9oukPmSxpUNUIVUkErBLQO8ybtg1+MyEZjD2e1nO0Ths="
+            signature: "LlNeC3G+mmkBwzDkuO7KwpOUUdCyZFp2J90fp36g7jJxiPWutCw2Nx8SMhEQDYy9Q5o80+F2C7ZBeN2Nq/cLoRw="
         },
         miniapp: {
             version: "1",
