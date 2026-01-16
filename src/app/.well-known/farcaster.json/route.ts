@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
     // Use NEXT_PUBLIC_URL or fallback to production domain
-    const appUrl = process.env.NEXT_PUBLIC_URL || 'https://basebird.space';
+    const appUrl = 'https://basebird.space';
 
     const config = {
         accountAssociation: {
