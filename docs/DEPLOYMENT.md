@@ -1,58 +1,58 @@
-# Deployment Guide for Flappy Bird Frame
+# Инструкция по деплою Flappy Bird Frame
 
-## 1. Prerequisites
+## 1. Подготовка
 
-Ensure you have the following ready:
-- GitHub account (project pushed to repo).
-- Vercel account.
-- Supabase project URL and Anon Key.
-- Farcaster Account (for domain signatures).
+Убедитесь, что у вас есть:
+- Аккаунт GitHub (проект загружен в репозиторий).
+- Аккаунт Vercel.
+- URL проекта Supabase и Anon Key.
+- Аккаунт Farcaster (для подписи домена).
 
-## 2. Deploy to Vercel
+## 2. Деплой на Vercel
 
-1.  Log in to [Vercel](https://vercel.com).
-2.  Click **Add New...** -> **Project**.
-3.  Import your GitHub repository `flappy-bird-frame` (or whatever you named it).
-4.  **Configure Project**:
-    *   **Framework Preset**: Next.js (should be auto-detected).
-    *   **Root Directory**: `./` (default).
-    *   **Environment Variables**: Expand and add the following:
+1.  Войдите в [Vercel](https://vercel.com).
+2.  Нажмите **Add New...** -> **Project**.
+3.  Импортируйте ваш репозиторий GitHub `flappy-bird-frame` (или как вы его назвали).
+4.  **Настройка проекта**:
+    *   **Framework Preset**: Next.js (должен определиться автоматически).
+    *   **Root Directory**: `./` (по умолчанию).
+    *   **Environment Variables**: Разверните и добавьте следующие переменные:
 
-| Variable Name | Value Description |
+| Имя переменной | Описание значения |
 | :--- | :--- |
-| `NEXT_PUBLIC_URL` | Your Vercel domain (e.g., `https://your-project.vercel.app`). **Important:** Add this AFTER the first deploy or use `https://your-project.vercel.app` if you know it. |
-| `NEXT_PUBLIC_ADMIN_WALLET` | Your wallet address (admin). |
-| `SUPABASE_URL` | Your Supabase Project URL. |
-| `SUPABASE_ANON_KEY` | Your Supabase Anon/Public Key. |
-| `NEXT_PUBLIC_WC_PROJECT_ID` | (Optional) WalletConnect Project ID for Wagmi/RainbowKit if used. |
+| `NEXT_PUBLIC_URL` | Ваш домен Vercel (например, `https://your-project.vercel.app`). **Важно:** Добавьте это ПОСЛЕ первого деплоя или используйте `https://your-project.vercel.app`, если вы его уже знаете. |
+| `NEXT_PUBLIC_ADMIN_WALLET` | Адрес вашего кошелька (админ). |
+| `SUPABASE_URL` | URL вашего проекта Supabase. |
+| `SUPABASE_ANON_KEY` | Ваш Supabase Anon/Public Key. |
+| `NEXT_PUBLIC_WC_PROJECT_ID` | (Опционально) WalletConnect Project ID для Wagmi/RainbowKit, если используется. |
 
-5.  Click **Deploy**.
+5.  Нажмите **Deploy**.
 
-## 3. Post-Deployment Configuration (CRITICAL)
+## 3. Настройка после деплоя (КРИТИЧНО)
 
-Farcaster Frame v2 requires a Domain Manifest with a valid signature.
+Farcaster Frame v2 требует манифест домена с действительной подписью.
 
-1.  **Get your Domain**: Note the Vercel domain (e.g., `https://flappy-bird-awesome.vercel.app`).
-2.  **Sign the Domain**:
-    *   Go to [Farcaster Domain Verification Tool](https://warpcast.com/~/developers/frames) or use a script to sign the domain string `{"domain":"flappy-bird-awesome.vercel.app"}` with your Farcaster account custody address.
-    *   You will get a **Signature**.
-3.  **Update Code**:
-    *   Open `src/app/.well-known/farcaster.json/route.ts`.
-    *   Update the `accountAssociation` object:
-        *   `header`: Your custody key header (base64).
-        *   `payload`: Your signed payload (base64 of `{"domain":"..."}`).
-        *   `signature`: The signature you generated.
-4.  **Push Changes**: Commit and push. Vercel will redeploy automatically.
-5.  **Update Environment Variable**: ensure `NEXT_PUBLIC_URL` in Vercel settings matches your domain exactly (no trailing slash).
+1.  **Получите свой домен**: Скопируйте домен Vercel (например, `https://flappy-bird-awesome.vercel.app`).
+2.  **Подпишите домен**:
+    *   Перейдите в [Инструмент верификации доменов Farcaster](https://warpcast.com/~/developers/frames) или используйте скрипт, чтобы подписать строку JSON `{"domain":"flappy-bird-awesome.vercel.app"}` своим адресом (custody address) Farcaster.
+    *   Вы получите **Signature** (подпись).
+3.  **Обновите код**:
+    *   Откройте файл `src/app/.well-known/farcaster.json/route.ts`.
+    *   Обновите объект `accountAssociation`:
+        *   `header`: Заголовок вашего ключа custody (base64).
+        *   `payload`: Ваш подписанный payload (base64 от `{"domain":"..."}`).
+        *   `signature`: Подпись, которую вы сгенерировали.
+4.  **Отправьте изменения**: Сделайте commit и push. Vercel автоматически пересооберет проект.
+5.  **Обновите переменную окружения**: убедитесь, что `NEXT_PUBLIC_URL` в настройках Vercel точно совпадает с вашим доменом (без слеша в конце).
 
-## 4. Warpcast Developer Portal
+## 4. Портал разработчиков Warpcast
 
-1.  Go to [Warpcast Developers](https://warpcast.com/~/developers).
-2.  Create a new Frame definition.
-3.  Set **Frame URL** to your Vercel URL.
-4.  The validator will check `/.well-known/farcaster.json`. If your signature is correct, it will pass.
+1.  Перейдите в [Warpcast Developers](https://warpcast.com/~/developers).
+2.  Создайте новое определение Frame (Frame definition).
+3.  Установите **Frame URL** на ваш URL Vercel.
+4.  Валидатор проверит `/.well-known/farcaster.json`. Если ваша подпись верна, проверка пройдет успешно.
 
-## 5. Troubleshooting
+## 5. Устранение неполадок
 
--   **404 on /.well-known/farcaster.json**: Ensure the `route.ts` exists in `src/app/.well-known/farcaster.json/` and the build succeeded.
--   **Invalid Signature**: Re-check that the domain in the payload matches the actual Vercel domain exactly.
+-   **404 на /.well-known/farcaster.json**: Убедитесь, что файл `route.ts` существует по пути `src/app/.well-known/farcaster.json/` и сборка прошла успешно.
+-   **Invalid Signature**: Перепроверьте, что домен в payload точно совпадает с реальным доменом Vercel.
