@@ -17,7 +17,13 @@ export async function GET() {
             imageUrl: `${appUrl}/splash.png`,
             buttonTitle: "Play BaseBird",
             splashImageUrl: `${appUrl}/splash.png`,
-            splashBackgroundColor: "#000000",
+            splashBackgroundColor: "#70c5ce",
+            heroImageUrl: `${appUrl}/hero_image.png`,
+            screenshotUrls: [
+                `${appUrl}/screenshot_gameplay.png`,
+                `${appUrl}/screenshot_gameover.png`,
+                `${appUrl}/screenshot_shop.png`
+            ],
             webhookUrl: `${appUrl}/api/webhook`
         }
     };
