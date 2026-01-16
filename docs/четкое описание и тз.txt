@@ -1,0 +1,127 @@
+
+1. Архитектура и Стек
+
+* Frontend: Next.js 14 (App Router).
+* Game Engine: Чистый HTML5 Canvas (React useRef). Никаких лишних библиотек.
+* Auth & Frame: @farcaster/frame-sdk.
+* Blockchain: wagmi (v2) + viem. Сеть Base Mainnet.
+* Backend: Next.js API Routes + Supabase (PostgreSQL).
+
+2. Логика защиты и платежей (Hardened)
+
+1. Покупка:
+
+Frontend вызывает sendTransaction.
+Получаем hash.
+Отправляем hash на Backend.
+
+
+2. Верификация (Backend):
+
+Проверяем: Статус транзакции == success.
+Проверяем: Получатель == наш_кошелек.
+Проверяем: Сумма >= цена_товара.
+КРИТИЧНО: Проверяем в БД, нет ли уже такого tx_hash.
+Если всё ОК -> Записываем в БД.
+
+
+
+
+3. Промпты для Cursor (Копируй по очереди)
+Я переписал их, чтобы исключить ошибки новичка.
+ПРОМПТ 1: Каркас и Farcaster SDK (Setup)
+
+Создай проект Next.js c TypeScript и Tailwind.
+
+1. Установи @farcaster/frame-sdk.
+2. Создай файл src/components/Providers.tsx. Это Client Component ('use client'). Внутри инициализируй SDK.
+3. В src/app/layout.tsx оберни children в этот Provider.
+4. Создай хук useFarcasterContext, который возвращает данные пользователя (fid, displayName).
+5. Сделай так, чтобы приложение показывало "Loading...", пока SDK не загрузится (проверка sdk.context).
+6. Добавь файл src/app/.well-known/farcaster.json с конфигурацией Frame v2 (url указывает на корень сайта).
+
+
+ПРОМПТ 2: Игровой движок (Physics & Canvas)
+
+Создай компонент src/components/Game/GameCanvas.tsx. Обязательно используй 'use client'.
+Задача: Реализовать клон Flappy Bird на Canvas.
+
+1. Используй requestAnimationFrame для игрового цикла.
+2. Состояние: Храни gameState ('start', 'playing', 'gameover') в React state.
+3. Физика: Птица имеет y, velocity, gravity (0.6), jumpStrength (-10).
+4. Трубы: Массив объектов. Движутся влево (speed = 3). Генерируются каждые 1500мс.
+5. Столкновения: Напиши функцию checkCollision(bird, pipes). Используй простую проверку прямоугольников (AABB).
+6. Управление: Клик мышкой или Тап по экрану (event pointerdown) вызывает прыжок.
+
+Пока используй цветные квадраты: Птица (желтая, 30x30), Трубы (зеленые).
+
+ПРОМПТ 3: База данных (Supabase & Schema)
+
+У меня есть Supabase проект. Давай напишем SQL для редактора SQL в Supabase.
+Мне нужны таблицы:
+
+1. users: колонки fid (BigInt, Primary Key), username (Text), high_score (Int, default 0).
+2. purchases: колонки id (UUID), fid (BigInt), sku_id (Text), tx_hash (Text, UNIQUE), created_at.
+
+Также создай API Route src/app/api/user/sync/route.ts.
+Он принимает fid и username через POST, делает upsert в таблицу users и возвращает данные юзера + список его покупок (purchases).
+
+ПРОМПТ 4: Web3 Платежи (Wagmi Integration)
+
+Настраиваем оплату.
+
+1. Установи wagmi viem @tanstack/react-query.
+2. Обнови Providers.tsx: добавь WagmiProvider и QueryClientProvider.
+3. В конфиге Wagmi (src/config/wagmi.ts) используй createConfig с цепочкой base и коннектором injected(). Это важно для работы внутри Farcaster.
+4. Создай хук usePurchaseItem(skuId, priceInEth).
+
+Он должен использовать useSendTransaction.
+При успехе (получении хеша), он должен вызывать наш API /api/verify-transaction.
+
+
+
+
+ПРОМПТ 5: Логика Магазина и Pay-to-Win (Integration)
+
+Теперь соединим всё.
+
+1. Создай компонент ShopModal. Товары:
+
+"Big Bird" (Бесплатно, SKU: 'default').
+"Small Bird" (Цена: 0.0005 ETH, SKU: 'small_bird').
+
+
+2. Создай API Route src/app/api/verify-transaction/route.ts.
+
+Вход: fid, txHash, skuId.
+Логика:
+a) Через viem (publicClient.getTransactionReceipt) проверь, что статус 'success'.
+b) Проверь, что to — это адрес кошелька разработчика (вынеси в .env).
+c) Проверь, что такого txHash еще нет в таблице purchases.
+d) Если всё ОК — запиши в БД и верни успех.
+
+
+3. В GameCanvas.tsx:
+
+Принимай проп activeSkin.
+Если activeSkin === 'small_bird', то визуальный размер птицы 30x30, но хитбокс для коллизии 20x20 (центр). Это даст преимущество.
+
+
+
+
+ПРОМПТ 6: Финальная полировка (UX)
+
+
+1. Сделай экран "Game Over". Показывай текущий счет и High Score (бери из профиля юзера).
+2. Если юзер побил рекорд — отправляй POST на /api/user/score (создай этот роут), чтобы обновить high_score в БД.
+3. Добавь кнопку "Share" (используй sdk.actions.openUrl), которая формирует ссылку на Warpcast с текстом: "Мой рекорд {score} в Flappy Bird! Сможешь побить?".
+
+
+
+Рекомендация перед стартом
+В корне проекта создай файл .env.local:
+bashDownloadCopy codeNEXT_PUBLIC_URL=http://localhost:3000
+NEXT_PUBLIC_ADMIN_WALLET=0xТВОЙ_КОШЕЛЕК
+SUPABASE_URL=...
+SUPABASE_ANON_KEY=...
+Теперь это план надежный. Можно запускать Cursor.

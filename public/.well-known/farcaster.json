@@ -1,0 +1,18 @@
+{
+    "accountAssociation": {
+        "header": "eyJmaWQiOjM2MjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgyY2Q4NWEwOTMyNjFmNTkyNzA4MDRBNkVBNjk3Q2VBNENlQkVjYWZFIn0",
+        "payload": "eyJkb21haW4iOiJleGFtcGxlLmNvbSJ9",
+        "signature": "MHgyY2Q4NWEwOTMyNjFmNTkyNzA4MDRBNkVBNjk3Q2VBNENlQkVjYWZF"
+    },
+    "frame": {
+        "version": "1",
+        "name": "Flappy Bird Frame",
+        "iconUrl": "http://localhost:3000/icon.png",
+        "homeUrl": "http://localhost:3000",
+        "imageUrl": "http://localhost:3000/splash.png",
+        "buttonTitle": "Play Flappy Bird",
+        "splashImageUrl": "http://localhost:3000/splash.png",
+        "splashBackgroundColor": "#000000",
+        "webhookUrl": "http://localhost:3000/api/webhook"
+    }
+}
