@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026-01-16] Pre-Deployment Prep
+- **Config**: Converted `farcaster.json` to a dynamic API route (`src/app/.well-known/farcaster.json/route.ts`) to support `NEXT_PUBLIC_URL` env var.
+- **Build**: Verified production build success.
+- **Docs**: Added `docs/DEPLOYMENT.md` with step-by-step Vercel instructions.
+
 ## [2026-01-16] Step 6: Polish & Assets
 - **Assets**: Created SVG sprites for Bird, Pipes, and Background in `public/`.
 - **Game Engine**: Updated `GameCanvas.tsx` to render images instead of colored rects.
