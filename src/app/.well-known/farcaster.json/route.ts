@@ -15,10 +15,10 @@ export async function GET() {
             name: "BaseBird",
             iconUrl: `${appUrl}/icon.png`,
             homeUrl: appUrl,
-            imageUrl: `${appUrl}/splash.png`,
+            imageUrl: `${appUrl}/hero_image.png`,
             buttonTitle: "Play BaseBird",
-            splashImageUrl: `${appUrl}/splash.png`,
-            splashBackgroundColor: "#70c5ce",
+            splashImageUrl: `${appUrl}/icon.png`,
+            splashBackgroundColor: "#000000",
             heroImageUrl: `${appUrl}/hero_image.png`,
             screenshotUrls: [
                 `${appUrl}/screenshot_gameplay.png`,

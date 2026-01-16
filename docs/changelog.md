@@ -29,3 +29,8 @@
 - **Assets**: Generated and added `hero_image.png`, `screenshot_gameplay.png`, `screenshot_gameover.png`, and `screenshot_shop.png` to `public/`.
 - **Manifest**: Updated `src/app/.well-known/farcaster.json/route.ts` with required Farcaster Mini App fields: `heroImageUrl`, `screenshotUrls`, and `splashBackgroundColor`.
 - **Branding**: Set splash background color to `#70c5ce` to match the game's sky theme.
+
+## [2026-01-16] Manifest & Embed Fixes
+- **Embed**: Updated `src/app/layout.tsx` to handle `NEXT_PUBLIC_URL` robustness (forcing HTTPS) and fixed image references (`imageUrl` -> `hero_image.png`, `splashImageUrl` -> `icon.png`).
+- **Manifest**: Synchronized `src/app/.well-known/farcaster.json/route.ts` with correct image references and formatting.
+- **Fix**: Resolved "Invalid URL" and aspect ratio issues reported in Embed Tool.

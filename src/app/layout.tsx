@@ -5,18 +5,21 @@ import { Providers } from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const appUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+const appUrl = (baseUrl.startsWith("http://") || baseUrl.startsWith("https://"))
+    ? baseUrl
+    : `https://${baseUrl}`;
 
 const miniappEmbed = {
     version: "1",
-    imageUrl: `${appUrl}/splash.png`,
+    imageUrl: `${appUrl}/hero_image.png`,
     button: {
         title: "Play BaseBird",
         action: {
             type: "launch_miniapp",
             name: "BaseBird",
             url: appUrl,
-            splashImageUrl: `${appUrl}/splash.png`,
+            splashImageUrl: `${appUrl}/icon.png`,
             splashBackgroundColor: "#000000"
         }
     }
