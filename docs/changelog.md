@@ -1,5 +1,13 @@
 # Changelog
 
+## [2026-01-16] Farcaster Mini App SDK Migration
+- **SDK**: Migrated from `@farcaster/frame-sdk` (deprecated) to `@farcaster/miniapp-sdk` (current).
+- **Wagmi**: Updated connector from `injected()` to `@farcaster/miniapp-wagmi-connector` for proper Farcaster wallet integration.
+- **Manifest**: Changed manifest config key from `frame` to `miniapp` as per current spec.
+- **Layout**: Added `fc:miniapp` meta tag for proper embed display in Farcaster feeds.
+- **Providers**: Rewrote SDK initialization with proper `sdk.actions.ready()` call to hide splash screen.
+- **Build**: Verified production build success.
+
 ## [2026-01-16] Pre-Deployment Prep
 - **Config**: Converted `farcaster.json` to a dynamic API route (`src/app/.well-known/farcaster.json/route.ts`) to support `NEXT_PUBLIC_URL` env var.
 - **Build**: Verified production build success.

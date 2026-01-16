@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import sdk from "@farcaster/frame-sdk";
+import { sdk } from "@farcaster/miniapp-sdk";
 
 // Game Constants
 const GRAVITY = 0.6;
@@ -79,7 +79,7 @@ export default function GameCanvas({ fid, initialHighScore = 0, activeSkin = 'de
     }, [gameState, fid]);
 
     const handleShare = useCallback(() => {
-        const text = `My record ${score} in Flappy Bird! Can you beat it?`;
+        const text = `My record ${score} in BaseBird! Can you beat it?`;
         // Use NEXT_PUBLIC_URL from env, or fallback to window.location.origin
         const baseUrl = process.env.NEXT_PUBLIC_URL || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
         const url = `https://warpcast.com/~/compose?text=${encodeURIComponent(text)}&embeds[]=${baseUrl}`;

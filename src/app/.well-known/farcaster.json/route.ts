@@ -9,13 +9,13 @@ export async function GET() {
             payload: "eyJkb21haW4iOiJleGFtcGxlLmNvbSJ9", // TODO: Update with actual domain payload after deployment
             signature: "MHgyY2Q4NWEwOTMyNjFmNTkyNzA4MDRBNkVBNjk3Q2VBNENlQkVjYWZF" // TODO: Update with actual signature after deployment
         },
-        frame: {
+        miniapp: {
             version: "1",
-            name: "Flappy Bird Frame",
+            name: "BaseBird",
             iconUrl: `${appUrl}/icon.png`,
             homeUrl: appUrl,
             imageUrl: `${appUrl}/splash.png`,
-            buttonTitle: "Play Flappy Bird",
+            buttonTitle: "Play BaseBird",
             splashImageUrl: `${appUrl}/splash.png`,
             splashBackgroundColor: "#000000",
             webhookUrl: `${appUrl}/api/webhook`
