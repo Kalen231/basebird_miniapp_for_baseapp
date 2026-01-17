@@ -32,28 +32,28 @@ export default function GameOverMenu({
             <div className="relative z-10 flex flex-col items-center px-6 max-w-[320px] w-full">
 
                 {/* Game Over Title */}
-                <h2 className="text-4xl font-bold font-mono text-red-500 mb-6 drop-shadow-[0_4px_0_rgba(0,0,0,0.5)] animate-fade-in-up">
+                <h2 className="text-5xl font-bold font-mono text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-fade-in-up tracking-widest">
                     GAME OVER
                 </h2>
 
                 {/* Score Panel */}
-                <div className="bg-gradient-to-b from-amber-100 to-amber-200 border-4 border-amber-600 rounded-xl p-6 mb-6 w-full shadow-[0_8px_0_0_#92400e] animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <div className="bg-[#1E293B]/90 backdrop-blur-md border border-cyan-500/30 rounded-xl p-6 mb-6 w-full shadow-[0_0_20px_rgba(0,212,255,0.15)] animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
 
                     {/* Current Score */}
                     <div className="text-center mb-4">
-                        <p className="text-amber-700 font-mono text-sm uppercase tracking-wider">Score</p>
-                        <p className="text-5xl font-bold font-mono text-amber-900 animate-score-pop">
+                        <p className="text-blue-300 font-mono text-xs uppercase tracking-widest mb-1">Score</p>
+                        <p className="text-6xl font-bold font-mono text-white animate-score-pop drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
                             {score}
                         </p>
                     </div>
 
                     {/* Divider */}
-                    <div className="border-t-2 border-amber-400 my-3" />
+                    <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent my-4" />
 
                     {/* High Score */}
                     <div className="text-center">
-                        <p className="text-amber-700 font-mono text-sm uppercase tracking-wider">Best</p>
-                        <p className="text-3xl font-bold font-mono text-amber-800">
+                        <p className="text-blue-300 font-mono text-xs uppercase tracking-widest mb-1">Best</p>
+                        <p className="text-3xl font-bold font-mono text-cyan-400">
                             {highScore}
                         </p>
                     </div>
@@ -61,7 +61,7 @@ export default function GameOverMenu({
                     {/* New Record Badge */}
                     {isNewRecord && (
                         <div className="mt-4 text-center">
-                            <span className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold font-mono text-sm px-4 py-1 rounded-full animate-pulse shadow-lg">
+                            <span className="inline-block bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold font-mono text-xs px-4 py-1 rounded-full animate-pulse shadow-[0_0_15px_rgba(234,179,8,0.6)]">
                                 🎉 NEW RECORD! 🎉
                             </span>
                         </div>
@@ -106,7 +106,7 @@ export default function GameOverMenu({
                     {/* Back to Menu */}
                     <button
                         onClick={onMainMenu}
-                        className="text-gray-400 hover:text-white font-mono text-sm mt-2 transition-colors"
+                        className="text-cyan-500/70 hover:text-cyan-400 font-mono text-sm mt-3 transition-colors tracking-wide uppercase"
                     >
                         ← Back to Menu
                     </button>
