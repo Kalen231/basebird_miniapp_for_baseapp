@@ -190,16 +190,27 @@ export default function GameCanvas({
 
         const finalScore = scoreRef.current;
 
-        // Save high score
+        // ALWAYS send score to server - server decides if it's a new high score
+        // This fixes the leaderboard bug where scores weren't being saved
+        if (fid) {
+            fetch('/api/user/score', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fid, score: finalScore })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // Update local high score based on server response
+                    if (data.newHighScore && data.newHighScore > highScore) {
+                        setHighScore(data.newHighScore);
+                    }
+                })
+                .catch(console.error);
+        }
+
+        // Update local high score immediately for UI
         if (finalScore > highScore) {
             setHighScore(finalScore);
-            if (fid) {
-                fetch('/api/user/score', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ fid, score: finalScore })
-                }).catch(console.error);
-            }
         }
 
         // Notify parent

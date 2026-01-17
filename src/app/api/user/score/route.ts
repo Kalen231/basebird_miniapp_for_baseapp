@@ -47,6 +47,7 @@ export async function POST(request: Request) {
         return NextResponse.json({
             success: true,
             newHighScore: score > currentHigh ? score : currentHigh,
+            isNewRecord: score > currentHigh,
             gamesPlayed: newGamesPlayed,
             message: score > currentHigh ? 'New high score!' : 'Score recorded'
         });

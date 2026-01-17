@@ -114,3 +114,10 @@
 - **Simplified**: Removed all extra buttons (Shop, Share, Leaderboard) - only "Play Again" and "Back to Menu" remain.
 - **Layout**: Centered "GAME OVER" title (large), score below it, and action buttons at the bottom. Clean, minimal design.
 
+## [2026-01-17] Critical Fix - Leaderboard Score Saving
+- **Bug**: High scores were not being saved to the leaderboard after game over.
+- **Root Cause**: `GameCanvas.tsx` only sent scores to the server when `finalScore > localHighScore`. If the local `highScore` state was stale or incorrectly loaded, the client would silently skip the API call.
+- **Fix**: Changed logic so that scores are **always** sent to the server after every game (when `fid` is present). The server-side logic (`/api/user/score`) already correctly determines whether the score is a new high score.
+- **Response**: Added `isNewRecord` field to API response for better client-side feedback.
+- **Impact**: All player scores are now reliably recorded in the database and appear on the leaderboard.
+
