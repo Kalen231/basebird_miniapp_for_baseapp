@@ -28,13 +28,13 @@ export default function DebugMonitor() {
         console.error = (...args) => {
             originalError(...args);
             setLogs((prev) => [`🔴 ${args.map(String).join(" ")}`, ...prev].slice(0, 8));
-            setIsVisible(true); // Auto-show on error
+            // setIsVisible(true); // Don't auto-show on error, only if debug=true
         };
 
         // Catch unhandled errors
         const errorHandler = (event: ErrorEvent) => {
             setLogs((prev) => [`💥 ${event.message}`, ...prev].slice(0, 8));
-            setIsVisible(true);
+            // setIsVisible(true); // Don't auto-show on error
         };
 
         window.addEventListener("error", errorHandler);

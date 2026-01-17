@@ -83,8 +83,6 @@ export default function AchievementsModal({
             setMintingId(null);
         },
         onError: (err) => {
-            console.error("Mint error:", err);
-
             // Check for user rejection
             const isUserRejection =
                 err.message.includes("User rejected the request") ||
@@ -92,10 +90,13 @@ export default function AchievementsModal({
                 err.name === 'UserRejectedRequestError';
 
             if (isUserRejection) {
-                // User cancelled, do not show error
+                // User cancelled, just log info
+                console.log("Mint cancelled by user");
                 setMintingId(null);
                 return;
             }
+
+            console.error("Mint error:", err);
 
             if (err.message.includes("Connector not connected")) {
                 setError("Wallet disconnected. Please reload the frame.");

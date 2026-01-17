@@ -100,3 +100,4 @@
 - **Shop**: Suppressed error popup when user cancels a buy/mint transaction.
 - **Achievements**: Suppressed similar error popup for achievement minting cancellations.
 - **Fix**: Prevents "User rejected the request" errors from being shown to the user as a failure, improving the user experience.
+- **Debug**: Disabled auto-showing of debug overlay on errors for production builds; overlay now requires `?debug=true`.

@@ -81,8 +81,6 @@ export default function ShopModal({
             setBuyingSkuId(null);
         },
         onError: (err) => {
-            console.error("Purchase error:", err);
-
             // Check for user rejection
             const isUserRejection =
                 err.message.includes("User rejected the request") ||
@@ -90,10 +88,13 @@ export default function ShopModal({
                 err.name === 'UserRejectedRequestError';
 
             if (isUserRejection) {
-                // User cancelled, do not show error
+                // User cancelled, just log info
+                console.log("Purchase cancelled by user");
                 setBuyingSkuId(null);
                 return;
             }
+
+            console.error("Purchase error:", err);
 
             if (err.message.includes("Connector not connected")) {
                 setError("Wallet disconnected. Please reload the frame.");
