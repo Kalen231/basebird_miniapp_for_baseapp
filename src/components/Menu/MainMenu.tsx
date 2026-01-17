@@ -105,9 +105,9 @@ export default function MainMenu({
                     <div className="flex gap-3">
                         <button
                             onClick={onOpenAchievements}
-                            className="menu-btn menu-btn-yellow flex-1 text-base py-3 px-2 text-sm"
+                            className="menu-btn menu-btn-yellow flex-1 text-base py-3 px-3"
                         >
-                            🏅 ACHV
+                            ⭐ AWARDS
                         </button>
 
                         <button
