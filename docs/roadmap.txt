@@ -71,7 +71,7 @@
 *  Валидация домена в Warpcast Developer Portal.
 *  Критерий готовности: Ссылка отправляется другу, он открывает, играет, покупает, делится своим результатом.
 
-ЭТАП 7: User Retention (Streak & Achievements)
+ЭТАП 7: User Retention (Streak & Achievements) ✅
 Задача: Удержание пользователей через ежедневные награды и достижения.
 
 *  Daily Streak Logic (DailyStreak.sol): Смарт-контракт для отслеживания ежедневных входов.
