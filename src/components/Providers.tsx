@@ -75,6 +75,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     setIsDevMode(true);
                     setContext(fallbackContext);
                     setIsSDKLoaded(true);
+                    // CRITICAL FIX: Tell Farcaster we are ready, even if we timed out (maybe SDK loaded late)
+                    // This prevents the splash screen from hanging forever
+                    try {
+                        await sdk.actions.ready();
+                    } catch (e) {
+                        // Ignore error if not in Farcaster
+                        console.warn('Failed to call ready() in timeout handler (expected if local):', e);
+                    }
                     return;
                 }
 
