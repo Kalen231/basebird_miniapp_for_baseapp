@@ -26,12 +26,24 @@ export async function GET() {
             buttonTitle: "Play BaseBird",
             splashImageUrl: `${appUrl}/splash_new.png`,
             splashBackgroundColor: "#0A0B14",
+            // Extended Metadata
+            subtitle: "Flappy Bird on Base",
+            description: "Fly through pipes, earn rewards, and compete on global leaderboards in this on-chain adaptation of the classic game. Built on Base with Farcaster integration.",
+            primaryCategory: "games",
+            tags: ["game", "casual", "skill", "base", "bird"],
+            tagline: "Fly. Survive. Earn.",
+            // Visual Assets
             heroImageUrl: `${appUrl}/hero_new.png`,
             screenshotUrls: [
                 `${appUrl}/screenshot_gameplay.png`,
                 `${appUrl}/screenshot_gameover.png`,
                 `${appUrl}/screenshot_shop.png`
             ],
+            // Open Graph Sharing
+            ogTitle: "BaseBird - Flappy Bird on Base",
+            ogDescription: "Play BaseBird, the on-chain Flappy Bird game on Base. Compete for high scores and rewards!",
+            ogImageUrl: `${appUrl}/hero_new.png`,
+
             webhookUrl: `${appUrl}/api/webhook`
         }
     };
