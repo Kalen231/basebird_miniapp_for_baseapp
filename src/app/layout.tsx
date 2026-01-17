@@ -3,12 +3,18 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 
+import DebugMonitor from "@/components/DebugMonitor";
+
 const inter = Inter({ subsets: ["latin"] });
 
-const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
-const appUrl = (baseUrl.startsWith("http://") || baseUrl.startsWith("https://"))
-    ? baseUrl
-    : `https://${baseUrl}`;
+function getAppUrl() {
+    if (process.env.NEXT_PUBLIC_URL) return process.env.NEXT_PUBLIC_URL;
+    if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+    return "http://localhost:3000";
+}
+
+const appUrl = getAppUrl();
 
 const miniappEmbed = {
     version: "1",
@@ -41,7 +47,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <Providers>{children}</Providers>
+                <Providers>
+                    <DebugMonitor />
+                    {children}
+                </Providers>
             </body>
         </html>
     );

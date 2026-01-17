@@ -1,8 +1,31 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-    // Use NEXT_PUBLIC_URL or fallback to production domain
-    const appUrl = process.env.NEXT_PUBLIC_URL || 'https://basebird.space';
+    // URL Resolution priorities:
+    // 1. NEXT_PUBLIC_URL (set manually in Vercel or .env)
+    // 2. VERCEL_PROJECT_PRODUCTION_URL (Auto-set by Vercel for production deployments)
+    // 3. VERCEL_URL (Auto-set by Vercel for preview/dev - often lacks https://)
+    // 4. Hardcoded fallback
+
+    let appUrl = process.env.NEXT_PUBLIC_URL;
+
+    if (!appUrl) {
+        if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+            appUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+        } else if (process.env.VERCEL_URL) {
+            appUrl = `https://${process.env.VERCEL_URL}`;
+        } else {
+            appUrl = 'https://basebird.space';
+        }
+    }
+
+    // Ensure no trailing slash
+    appUrl = appUrl.replace(/\/$/, '');
+
+    // Force HTTPS if not localhost
+    if (!appUrl.startsWith('http://localhost') && !appUrl.startsWith('https://')) {
+        appUrl = appUrl.replace('http://', 'https://');
+    }
 
     const config = {
         accountAssociation: {
