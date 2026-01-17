@@ -12,6 +12,7 @@ export function useGameData({ fid, displayName }: UseGameDataProps) {
     const [ownedSkus, setOwnedSkus] = useState<string[]>([]);
     const [userAchievements, setUserAchievements] = useState<UserAchievement[]>([]);
     const [isSyncing, setIsSyncing] = useState(false);
+    const [hasInitialized, setHasInitialized] = useState(false);
 
     const syncUser = useCallback(() => {
         if (!fid) return;
@@ -35,7 +36,10 @@ export function useGameData({ fid, displayName }: UseGameDataProps) {
                 }
             })
             .catch(err => console.error('Sync error:', err))
-            .finally(() => setIsSyncing(false));
+            .finally(() => {
+                setIsSyncing(false);
+                setHasInitialized(true);
+            });
     }, [fid, displayName]);
 
     const fetchAchievements = useCallback(() => {
@@ -81,6 +85,7 @@ export function useGameData({ fid, displayName }: UseGameDataProps) {
         setOwnedSkus,
         userAchievements,
         isSyncing,
+        hasInitialized,
         syncUser,
         fetchAchievements,
         unlockAchievement

@@ -32,7 +32,7 @@ export default function GameOverMenu({
             <div className="relative z-10 flex flex-col items-center px-6 max-w-[320px] w-full">
 
                 {/* Game Over Title */}
-                <h2 className="text-3xl font-bold font-mono text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-fade-in-up whitespace-nowrap">
+                <h2 className="w-full text-center text-3xl font-bold font-mono text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-fade-in-up whitespace-nowrap">
                     GAME OVER
                 </h2>
 

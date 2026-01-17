@@ -26,6 +26,7 @@ export default function Home() {
         setOwnedSkus,
         userAchievements,
         isSyncing,
+        hasInitialized,
         syncUser,
         fetchAchievements,
         unlockAchievement
@@ -55,6 +56,11 @@ export default function Home() {
     }, [fid, displayName, syncUser, fetchAchievements]);
 
     const handlePlay = useCallback(() => {
+        // Prevent playing if data is not loaded yet
+        if (isLoading || !hasInitialized || isSyncing) {
+            return;
+        }
+
         // Check if user owns at least one bird
         if (ownedSkus.length === 0) {
             setIsNoBirdWarningOpen(true);
@@ -68,7 +74,7 @@ export default function Home() {
         if (gamesPlayed === 0) {
             unlockAchievement('first_game');
         }
-    }, [gamesPlayed, unlockAchievement, ownedSkus]);
+    }, [gamesPlayed, unlockAchievement, ownedSkus, isLoading, hasInitialized, isSyncing]);
 
     const handleGameOver = (score: number) => {
         setCurrentScore(score);
@@ -117,7 +123,7 @@ export default function Home() {
             {screen !== 'menu' && (
                 <div className="mb-4 text-white font-mono text-sm text-center flex flex-col gap-1">
                     <div>Player: {displayName} (FID: {fid})</div>
-                    {isSyncing && <span className="text-xs text-gray-400">Syncing...</span>}
+                    {(isSyncing || !hasInitialized) && <span className="text-xs text-gray-400">Syncing...</span>}
                 </div>
             )}
 
@@ -131,6 +137,7 @@ export default function Home() {
                     onOpenAchievements={() => setIsAchievementsOpen(true)}
                     playerName={displayName}
                     highScore={highScore}
+                    isLoading={isLoading || !hasInitialized || isSyncing}
                 />
             )}
 

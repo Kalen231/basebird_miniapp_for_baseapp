@@ -10,6 +10,7 @@ interface MainMenuProps {
     onOpenAchievements: () => void;
     playerName?: string;
     highScore?: number;
+    isLoading?: boolean;
 }
 
 export default function MainMenu({
@@ -19,7 +20,8 @@ export default function MainMenu({
     onOpenLeaderboard,
     onOpenAchievements,
     playerName,
-    highScore = 0
+    highScore = 0,
+    isLoading = false
 }: MainMenuProps) {
     return (
         <div className="relative w-full max-w-[430px] mx-auto h-[600px] overflow-hidden border-2 border-cyan-400/30 bg-[#0A0B14] rounded-lg shadow-[0_0_20px_rgba(0,212,255,0.2)]">
@@ -71,9 +73,10 @@ export default function MainMenu({
                 <div className="flex flex-col gap-4 w-full max-w-[280px]">
                     <button
                         onClick={onPlay}
-                        className="menu-btn menu-btn-primary animate-pulse-glow animate-float"
+                        disabled={isLoading}
+                        className={`menu-btn menu-btn-primary animate-pulse-glow animate-float ${isLoading ? 'opacity-50 cursor-not-allowed grayscale' : ''}`}
                     >
-                        ▶ PLAY
+                        {isLoading ? '⏳ LOADING...' : '▶ PLAY'}
                     </button>
 
                     <div className="flex gap-3">

@@ -86,3 +86,8 @@
 - **Colors**: Adopted Base blockchain color palette (Base Blue #0052FF, Neon Cyan #00D4FF, Deep Void #0A0B14).
 - **Note**: Bird skins remain unchanged as per design requirements.
 
+## [2026-01-17] Fix - Persistent "No Bird" Warning
+- **Logic**: Implemented `hasInitialized` state in `useGameData` to accurately track first data sync completion.
+- **UI**: Updated `MainMenu` to disable the "Play" button and show "LOADING..." until user data (birds) is fully loaded.
+- **Fix**: Prevents the "You need a bird!" modal from appearing incorrectly when reloading the game, ensuring users can only play after their inventory is verified.
+
