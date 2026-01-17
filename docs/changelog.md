@@ -121,3 +121,13 @@
 - **Response**: Added `isNewRecord` field to API response for better client-side feedback.
 - **Impact**: All player scores are now reliably recorded in the database and appear on the leaderboard.
 
+## [2026-01-17] Fix - Leaderboard Data Sync Issues
+- **Bug**: Best score in main menu and leaderboard showed different values.
+- **Root Cause #1**: `sync/route.ts` used `upsert()` which could potentially reset `high_score` to null/0.
+- **Root Cause #2**: Leaderboard API created its own Supabase client instead of using shared one.
+- **Root Cause #3**: API responses and client requests could be cached, showing stale data.
+- **Fix 1**: Rewrote sync API to use explicit SELECT → INSERT/UPDATE flow, never touching `high_score` on sync.
+- **Fix 2**: Unified all API routes to use shared `@/lib/supabase` client.
+- **Fix 3**: Added aggressive cache-busting: `Cache-Control: no-store`, timestamp query params, `revalidate: 0`.
+- **Files Changed**: `sync/route.ts`, `leaderboard/route.ts`, `LeaderboardModal.tsx`
+

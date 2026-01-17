@@ -35,7 +35,13 @@ export default function LeaderboardModal({
         setIsLoading(true);
         setError(null);
         try {
-            const res = await fetch('/api/leaderboard');
+            // Add cache-busting parameter to ensure fresh data
+            const res = await fetch(`/api/leaderboard?_t=${Date.now()}`, {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache'
+                }
+            });
             if (!res.ok) throw new Error('Failed to load');
             const data = await res.json();
             setEntries(data.leaderboard || []);

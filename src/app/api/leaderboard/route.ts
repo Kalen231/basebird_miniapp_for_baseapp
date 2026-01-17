@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 
 // Отключаем кеширование - данные всегда свежие из БД
 export const dynamic = 'force-dynamic';
-
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const revalidate = 0;
 
 export async function GET(request: NextRequest) {
     try {
@@ -28,7 +25,14 @@ export async function GET(request: NextRequest) {
             high_score: user.high_score || 0
         }));
 
-        return NextResponse.json({ leaderboard });
+        // Return with no-cache headers to ensure fresh data
+        return NextResponse.json({ leaderboard }, {
+            headers: {
+                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            }
+        });
     } catch (error) {
         console.error('Leaderboard error:', error);
         return NextResponse.json({ error: 'Server error' }, { status: 500 });
