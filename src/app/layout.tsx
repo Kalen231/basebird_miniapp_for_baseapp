@@ -7,7 +7,7 @@ import DebugMonitor from "@/components/DebugMonitor";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const appUrl = process.env.NEXT_PUBLIC_URL || "https://basebird.space";
+const appUrl = "https://basebird.space";
 
 const miniappEmbed = {
     version: "1",
@@ -15,7 +15,7 @@ const miniappEmbed = {
     button: {
         title: "Play BaseBird",
         action: {
-            type: "launch_miniapp",
+            type: "launch_frame",
             name: "BaseBird",
             url: appUrl,
             splashImageUrl: `${appUrl}/icon.png`,
