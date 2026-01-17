@@ -100,7 +100,7 @@ export class TrailSystem {
         // Square geometric blocks - Base Blue Jay
         for (let i = 0; i < 2; i++) {
             this.particles.push({
-                x: x - 5 - Math.random() * 10,
+                x: x + 20 - Math.random() * 10, // Emanate from bird body
                 y: y + (Math.random() - 0.5) * 20,
                 vx: -2 - Math.random() * 2,
                 vy: (Math.random() - 0.5) * 1,
