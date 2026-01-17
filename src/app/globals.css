@@ -1,3 +1,219 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Menu Animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5);
+    }
+}
+
+@keyframes title-glow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
+    }
+
+    50% {
+        text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.5);
+    }
+}
+
+@keyframes cloud-move {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes score-pop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bird-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-title-glow {
+    animation: title-glow 2s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-score-pop {
+    animation: score-pop 0.5s ease-out forwards;
+}
+
+.animate-bird-bounce {
+    animation: bird-bounce 1.5s ease-in-out infinite;
+}
+
+/* Cloud animation classes */
+.cloud {
+    animation: cloud-move linear infinite;
+}
+
+.cloud-1 {
+    animation-duration: 20s;
+}
+
+.cloud-2 {
+    animation-duration: 25s;
+    animation-delay: -5s;
+}
+
+.cloud-3 {
+    animation-duration: 30s;
+    animation-delay: -10s;
+}
+
+/* Button styles - using raw CSS instead of @apply for complex shadow values */
+.menu-btn {
+    position: relative;
+    padding: 1rem 2.5rem;
+    font-weight: 700;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-width: 4px;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.menu-btn:active {
+    transform: translateY(4px);
+    box-shadow: none !important;
+}
+
+.menu-btn-primary {
+    background: linear-gradient(to bottom, #facc15, #eab308);
+    color: black;
+    border-color: #ca8a04;
+    box-shadow: 0 6px 0 0 #92400e, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn-primary:hover {
+    background: linear-gradient(to bottom, #fde047, #facc15);
+}
+
+.menu-btn-secondary {
+    background: linear-gradient(to bottom, #22c55e, #16a34a);
+    color: white;
+    border-color: #15803d;
+    box-shadow: 0 6px 0 0 #065f46, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn-secondary:hover {
+    background: linear-gradient(to bottom, #4ade80, #22c55e);
+}
+
+.menu-btn-purple {
+    background: linear-gradient(to bottom, #a855f7, #9333ea);
+    color: white;
+    border-color: #7e22ce;
+    box-shadow: 0 6px 0 0 #581c87, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn-purple:hover {
+    background: linear-gradient(to bottom, #c084fc, #a855f7);
+}
+
+.menu-btn-blue {
+    background: linear-gradient(to bottom, #3b82f6, #2563eb);
+    color: white;
+    border-color: #1d4ed8;
+    box-shadow: 0 6px 0 0 #1e3a8a, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn-blue:hover {
+    background: linear-gradient(to bottom, #60a5fa, #3b82f6);
+}
+
+.menu-btn-red {
+    background: linear-gradient(to bottom, #ef4444, #dc2626);
+    color: white;
+    border-color: #b91c1c;
+    box-shadow: 0 6px 0 0 #7f1d1d, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn-red:hover {
+    background: linear-gradient(to bottom, #f87171, #ef4444);
+}
+
+.menu-btn-yellow {
+    background: linear-gradient(to bottom, #f59e0b, #d97706);
+    color: white;
+    border-color: #b45309;
+    box-shadow: 0 6px 0 0 #78350f, 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn-yellow:hover {
+    background: linear-gradient(to bottom, #fbbf24, #f59e0b);
+}

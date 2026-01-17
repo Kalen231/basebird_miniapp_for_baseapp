@@ -1,78 +1,165 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useFarcasterContext } from "@/components/Providers";
 import GameCanvas from "@/components/Game/GameCanvas";
 import ShopModal from "@/components/Shop/ShopModal";
+import MainMenu from "@/components/Menu/MainMenu";
+import GameOverMenu from "@/components/Menu/GameOverMenu";
+import InventoryModal from "@/components/Menu/InventoryModal";
+import LeaderboardModal from "@/components/Menu/LeaderboardModal";
+import AchievementsModal from "@/components/Menu/AchievementsModal";
+import { sdk } from "@farcaster/miniapp-sdk";
+import { useGameData } from "@/hooks/useGameData";
+import { GameScreen } from "@/types/game";
 
 export default function Home() {
     const { fid, displayName, isLoading } = useFarcasterContext();
-    const [highScore, setHighScore] = useState(0);
-    const [isSyncing, setIsSyncing] = useState(false);
 
-    // Shop State
+    // Custom Hook for Game Data
+    const {
+        highScore,
+        setHighScore,
+        gamesPlayed,
+        ownedSkus,
+        setOwnedSkus,
+        userAchievements,
+        isSyncing,
+        syncUser,
+        fetchAchievements,
+        unlockAchievement
+    } = useGameData({ fid, displayName });
+
+    const [currentScore, setCurrentScore] = useState(0);
+
+    // Screen State
+    const [screen, setScreen] = useState<GameScreen>('menu');
+
+    // Modals State
     const [isShopOpen, setIsShopOpen] = useState(false);
-    const [ownedSkus, setOwnedSkus] = useState<string[]>(['default']);
-    const [activeSkin, setActiveSkin] = useState('default');
+    const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+    const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
+    const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
 
-    const syncUser = () => {
-        if (!fid) return;
-        setIsSyncing(true);
-        fetch('/api/user/sync', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fid, username: displayName })
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.user?.high_score) {
-                    setHighScore(data.user.high_score);
-                }
-                if (data.purchases) {
-                    const skus = data.purchases.map((p: any) => p.sku_id);
-                    setOwnedSkus(['default', ...skus]);
-                }
-            })
-            .catch(err => console.error('Sync error:', err))
-            .finally(() => setIsSyncing(false));
-    };
+    // Skins State
+    const [activeSkin, setActiveSkin] = useState('base_blue_jay');
 
+    // Sync on load
     useEffect(() => {
         if (fid && displayName) {
             syncUser();
+            fetchAchievements();
         }
-    }, [fid, displayName]);
+    }, [fid, displayName, syncUser, fetchAchievements]);
+
+    const handlePlay = useCallback(() => {
+        setCurrentScore(0);
+        setScreen('playing');
+
+        // Unlock "first_game" achievement on first play
+        if (gamesPlayed === 0) {
+            unlockAchievement('first_game');
+        }
+    }, [gamesPlayed, unlockAchievement]);
+
+    const handleGameOver = (score: number) => {
+        setCurrentScore(score);
+        if (score > highScore) {
+            setHighScore(score);
+        }
+        setScreen('gameover');
+    };
+
+    const handleMainMenu = () => {
+        setScreen('menu');
+    };
+
+    const handleShare = useCallback(async () => {
+        const text = `My record ${currentScore} in BaseBird! Can you beat it?`;
+        const baseUrl = process.env.NEXT_PUBLIC_URL || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+
+        try {
+            // Use composeCast for recast tracking
+            const result = await sdk.actions.composeCast({
+                text,
+                embeds: [baseUrl]
+            });
+
+            // If user completed the cast, unlock recast achievement
+            if (result?.cast) {
+                unlockAchievement('recast_share');
+            }
+        } catch (err) {
+            // Fallback to openUrl if composeCast fails
+            const url = `https://warpcast.com/~/compose?text=${encodeURIComponent(text)}&embeds[]=${baseUrl}`;
+            sdk.actions.openUrl(url);
+        }
+    }, [currentScore, unlockAchievement]);
+
+    const handleAchievementMintSuccess = (achievementId: string) => {
+        fetchAchievements();
+    };
 
     if (isLoading) {
         return (
             <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-zinc-900 text-white">
-                <p>Loading...</p>
+                <div className="animate-spin w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full mb-4" />
+                <p className="font-mono">Loading...</p>
             </main>
         );
     }
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-zinc-900">
-            <div className="mb-4 text-white font-mono text-sm text-center flex flex-col gap-1">
-                <div>Player: {displayName} (FID: {fid})</div>
-                {isSyncing && <span className="text-xs text-gray-400">Syncing...</span>}
-            </div>
+            {/* Player Info */}
+            {screen !== 'menu' && (
+                <div className="mb-4 text-white font-mono text-sm text-center flex flex-col gap-1">
+                    <div>Player: {displayName} (FID: {fid})</div>
+                    {isSyncing && <span className="text-xs text-gray-400">Syncing...</span>}
+                </div>
+            )}
 
-            <GameCanvas
-                fid={fid}
-                initialHighScore={highScore}
-                activeSkin={activeSkin}
-            />
+            {/* Main Menu */}
+            {screen === 'menu' && (
+                <MainMenu
+                    onPlay={handlePlay}
+                    onOpenShop={() => setIsShopOpen(true)}
+                    onOpenInventory={() => setIsInventoryOpen(true)}
+                    onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
+                    onOpenAchievements={() => setIsAchievementsOpen(true)}
+                    playerName={displayName}
+                    highScore={highScore}
+                />
+            )}
 
-            <div className="mt-6 w-full max-w-[430px] flex justify-center">
-                <button
-                    onClick={() => setIsShopOpen(true)}
-                    className="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-bold rounded border-4 border-yellow-600 font-mono shadow-[4px_4px_0_0_rgba(0,0,0,0.5)] active:translate-y-1 active:shadow-none transition-all"
-                >
-                    OPEN SHOP 🛒
-                </button>
-            </div>
+            {/* Game Screen */}
+            {(screen === 'playing' || screen === 'gameover') && (
+                <div className="relative w-full max-w-[430px] mx-auto h-[600px]">
+                    <GameCanvas
+                        fid={fid}
+                        initialHighScore={highScore}
+                        activeSkin={activeSkin}
+                        onGameOver={handleGameOver}
+                        isPlaying={screen === 'playing'}
+                    />
 
+                    {/* Game Over Overlay */}
+                    {screen === 'gameover' && (
+                        <GameOverMenu
+                            score={currentScore}
+                            highScore={highScore}
+                            isNewRecord={currentScore >= highScore && currentScore > 0}
+                            onPlayAgain={handlePlay}
+                            onMainMenu={handleMainMenu}
+                            onShare={handleShare}
+                            onOpenShop={() => setIsShopOpen(true)}
+                            onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
+                        />
+                    )}
+                </div>
+            )}
+
+            {/* Modals */}
             <ShopModal
                 isOpen={isShopOpen}
                 onClose={() => setIsShopOpen(false)}
@@ -80,9 +167,30 @@ export default function Home() {
                 activeSkin={activeSkin}
                 onEquip={(sku) => setActiveSkin(sku)}
                 onPurchaseSuccess={(sku) => {
-                    syncUser(); // Refresh purchases
-                    setOwnedSkus(prev => [...prev, sku]); // Optimistic update
+                    syncUser();
+                    setOwnedSkus(prev => [...prev, sku]);
                 }}
+            />
+
+            <InventoryModal
+                isOpen={isInventoryOpen}
+                onClose={() => setIsInventoryOpen(false)}
+                ownedSkus={ownedSkus}
+                activeSkin={activeSkin}
+                onEquip={(sku) => setActiveSkin(sku)}
+            />
+
+            <LeaderboardModal
+                isOpen={isLeaderboardOpen}
+                onClose={() => setIsLeaderboardOpen(false)}
+                currentFid={fid}
+            />
+
+            <AchievementsModal
+                isOpen={isAchievementsOpen}
+                onClose={() => setIsAchievementsOpen(false)}
+                userAchievements={userAchievements}
+                onMintSuccess={handleAchievementMintSuccess}
             />
         </main>
     );

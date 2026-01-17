@@ -34,3 +34,41 @@
 - **Embed**: Updated `src/app/layout.tsx` to handle `NEXT_PUBLIC_URL` robustness (forcing HTTPS) and fixed image references (`imageUrl` -> `hero_image.png`, `splashImageUrl` -> `icon.png`).
 - **Manifest**: Synchronized `src/app/.well-known/farcaster.json/route.ts` with correct image references and formatting.
 - **Fix**: Resolved "Invalid URL" and aspect ratio issues reported in Embed Tool.
+
+## [2026-01-17] Crypto Bird Skins Integration
+- **Assets**: Created 12 unique crypto-themed bird skins (PNG) in `public/skins/`.
+- **Config**: Added `src/config/skins.ts` registry to manage skin metadata, pricing, and visual features.
+- **Engine**: Updated `GameCanvas.tsx` to dynamically load skin assets based on the `activeSkin` prop.
+- **Structure**: Verified asset paths and integration with the game loop.
+
+## [2026-01-17] Skin Transparency Fix
+- **Assets**: Processed all 8 bird skins in `public/skins/` to remove background colors (transparency fix).
+- **Tooling**: Used `jimp` script for batch processing to ensure clean transparency.
+
+## [2026-01-17] Shop Integration - All Bird Skins
+- **Shop**: Refactored `ShopModal.tsx` to dynamically display all 8 crypto bird skins from config.
+- **Pricing**: Configured ETH prices for all skins:
+  - Base Blue Jay: 0.0001 ETH (mintable, only gas)
+  - Solana Neon Swallow: 0.001 ETH
+  - Clanker Chrome Crow: 0.002 ETH
+  - Rollup Robin: 0.0035 ETH
+  - Mempool Finch: 0.005 ETH
+  - Validator Owl: 0.01 ETH
+  - MEV Magpie: 0.1 ETH
+  - Airdrop Canary: 1 ETH
+- **Config**: Updated `skins.ts` with `isMintable` flag for base bird and `skuId` for all skins.
+- **Inventory**: Refactored `InventoryModal.tsx` to use shared skins config with actual bird images.
+- **State**: Updated `page.tsx` to handle empty initial inventory (users must mint/buy first).
+
+### 2026-01-17 Achievements System Integration
+- **Features**: Added "First Flight" and "Recast" achievements.
+- **Database**: Added `achievements` table and `games_played` tracking.
+- **API**: Implemented `/api/achievements/*` endpoints for listing, unlocking, and minting.
+- **UI**: Added Achievements Modal and Menu button.
+- **Assets**: Added SVG placeholders for achievement icons.
+
+## [2026-01-17] Codebase Optimization & Refactoring
+- **Structure**: Created centralized `src/types/` for TypeScript interfaces and `src/config/` for game constants.
+- **Hooks**: Extracted data fetching logic (sync, achievements) into `src/hooks/useGameData.ts`.
+- **Refactor**: Cleaned up `GameCanvas.tsx` and `page.tsx` by removing hardcoded values and inline types.
+- **Verification**: Verified build success ensuring no regressions.
