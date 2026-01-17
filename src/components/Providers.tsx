@@ -9,8 +9,8 @@ import { WagmiConnectionManager } from './WagmiConnectionManager';
 
 const queryClient = new QueryClient();
 
-// Timeout for SDK initialization (ms) - if exceeded, use fallback mode
-const SDK_TIMEOUT_MS = 2000;
+// Timeout for SDK initialization (ms) - increased for production reliability
+const SDK_TIMEOUT_MS = 10000;
 
 interface FarcasterContextType {
     fid?: number;
@@ -44,47 +44,48 @@ export function Providers({ children }: { children: React.ReactNode }) {
         };
 
         const initSDK = async () => {
-
-
-            // We might be in Farcaster - try with timeout using Promise.race
-            const timeoutPromise = new Promise<null>((resolve) => {
-                setTimeout(() => {
-                    console.log('⏱️ SDK timeout - switching to dev mode');
-                    resolve(null);
-                }, SDK_TIMEOUT_MS);
-            });
+            let shouldCallReady = true;
 
             try {
+                // Try to get context with increased timeout for production
+                const timeoutPromise = new Promise<null>((_, reject) => {
+                    setTimeout(() => {
+                        reject(new Error('SDK context timeout'));
+                    }, SDK_TIMEOUT_MS);
+                });
+
                 const result = await Promise.race([
                     sdk.context,
                     timeoutPromise
                 ]);
 
-                if (result === null) {
-                    // Timeout occurred
-                    console.log('🎮 Running in LOCAL DEV MODE - using mock user data');
+                if (result) {
+                    // Got real context from Farcaster
+                    console.log('✅ Farcaster SDK context loaded successfully');
+                    setContext(result);
+                } else {
+                    // Unexpected null result
+                    console.warn('⚠️ SDK returned null context, using dev mode');
                     setIsDevMode(true);
                     setContext(fallbackContext);
-                    setIsSDKLoaded(true);
-                    // CRITICAL FIX: Tell Farcaster we are ready, even if we timed out (maybe SDK loaded late)
-                    // This prevents the splash screen from hanging forever
-                    try {
-                        await sdk.actions.ready();
-                    } catch (e) {
-                        // Ignore error if not in Farcaster
-                        console.warn('Failed to call ready() in timeout handler (expected if local):', e);
-                    }
-                    return;
                 }
-
-                // Got real context from Farcaster
-                setContext(result);
-                await sdk.actions.ready();
-                setIsSDKLoaded(true);
             } catch (error) {
-                console.error('Failed to initialize Farcaster SDK:', error);
+                // Timeout or other error - use dev mode
+                console.warn('🎮 SDK init failed, using dev mode:', error);
                 setIsDevMode(true);
                 setContext(fallbackContext);
+            } finally {
+                // CRITICAL: ALWAYS call ready() to hide splash screen
+                // This runs regardless of success or failure above
+                if (shouldCallReady) {
+                    try {
+                        await sdk.actions.ready();
+                        console.log('✅ sdk.actions.ready() called successfully');
+                    } catch (readyError) {
+                        // Log but don't crash - we're probably not in Farcaster
+                        console.warn('sdk.actions.ready() failed (expected if not in Farcaster):', readyError);
+                    }
+                }
                 setIsSDKLoaded(true);
             }
         };
