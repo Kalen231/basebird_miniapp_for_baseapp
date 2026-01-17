@@ -20,13 +20,13 @@ export async function GET() {
         miniapp: {
             version: "1",
             name: "BaseBird",
-            iconUrl: `${appUrl}/icon.png`,
+            iconUrl: `${appUrl}/icon_new.png`,
             homeUrl: appUrl,
-            imageUrl: `${appUrl}/hero_image.png`,
+            imageUrl: `${appUrl}/hero_new.png`,
             buttonTitle: "Play BaseBird",
-            splashImageUrl: `${appUrl}/icon.png`,
-            splashBackgroundColor: "#000000",
-            heroImageUrl: `${appUrl}/hero_image.png`,
+            splashImageUrl: `${appUrl}/splash_new.png`,
+            splashBackgroundColor: "#0A0B14",
+            heroImageUrl: `${appUrl}/hero_new.png`,
             screenshotUrls: [
                 `${appUrl}/screenshot_gameplay.png`,
                 `${appUrl}/screenshot_gameover.png`,
