@@ -3,7 +3,7 @@ export const GAME_CONFIG = {
     JUMP_STRENGTH: -10,
     PIPE_SPEED: 3,
     PIPE_SPAWN_RATE: 1500, // ms
-    BIRD_SIZE: 30,
+    BIRD_SIZE: 75,
     PIPE_WIDTH: 50,
     PIPE_GAP: 150,
     PIPE_CAP_HEIGHT: 20,
