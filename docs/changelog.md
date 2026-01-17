@@ -95,3 +95,8 @@
 - **Achievements**: Added "Share" button logic to `AchievementsModal` for the "Recast" achievement.
 - **Verification**: Implemented `sdk.actions.composeCast` integration to open Farcaster composer and detect successful casting for immediate achievement unlocking.
 - **UX**: User can now share the game and instantly unlock/mint the achievement without leaving the flow (or with minimal friction).
+
+## [2026-01-17] Shop UX Improvements
+- **Shop**: Suppressed error popup when user cancels a buy/mint transaction.
+- **Achievements**: Suppressed similar error popup for achievement minting cancellations.
+- **Fix**: Prevents "User rejected the request" errors from being shown to the user as a failure, improving the user experience.

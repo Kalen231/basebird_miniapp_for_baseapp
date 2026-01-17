@@ -82,6 +82,19 @@ export default function ShopModal({
         },
         onError: (err) => {
             console.error("Purchase error:", err);
+
+            // Check for user rejection
+            const isUserRejection =
+                err.message.includes("User rejected the request") ||
+                err.message.includes("User denied transaction signature") ||
+                err.name === 'UserRejectedRequestError';
+
+            if (isUserRejection) {
+                // User cancelled, do not show error
+                setBuyingSkuId(null);
+                return;
+            }
+
             if (err.message.includes("Connector not connected")) {
                 setError("Wallet disconnected. Please reload the frame.");
             } else {

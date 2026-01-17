@@ -84,6 +84,19 @@ export default function AchievementsModal({
         },
         onError: (err) => {
             console.error("Mint error:", err);
+
+            // Check for user rejection
+            const isUserRejection =
+                err.message.includes("User rejected the request") ||
+                err.message.includes("User denied transaction signature") ||
+                err.name === 'UserRejectedRequestError';
+
+            if (isUserRejection) {
+                // User cancelled, do not show error
+                setMintingId(null);
+                return;
+            }
+
             if (err.message.includes("Connector not connected")) {
                 setError("Wallet disconnected. Please reload the frame.");
             } else {
