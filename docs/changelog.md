@@ -111,4 +111,4 @@
 
 ## [2026-01-17] Polish - Play Again Button
 - **UI**: Redesigned the "Play Again" button in the Game Over menu to be a circular, centered icon button.
-- **UX**: Moved the button "higher" (closer to score, separated from bottom menu) and updated its position to prevent accidental clicks after game over.
+- **UX**: Completely reordered the Game Over menu layout: Action buttons are now at the TOP to prevent accidental clicks on the bottom (where flight tap happens), while Score and "Game Over" title are moved to the BOTTOM/Middle.

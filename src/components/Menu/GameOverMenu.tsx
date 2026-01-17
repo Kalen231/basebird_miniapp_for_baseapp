@@ -31,45 +31,8 @@ export default function GameOverMenu({
             {/* Content */}
             <div className="relative z-10 flex flex-col items-center px-6 max-w-[320px] w-full">
 
-                {/* Game Over Title */}
-                <h2 className="w-full text-center text-3xl font-bold font-mono text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-fade-in-up whitespace-nowrap">
-                    GAME OVER
-                </h2>
-
-                {/* Score Panel */}
-                <div className="bg-[#1E293B]/90 backdrop-blur-md border border-cyan-500/30 rounded-xl p-6 mb-6 w-full shadow-[0_0_20px_rgba(0,212,255,0.15)] animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-
-                    {/* Current Score */}
-                    <div className="text-center mb-4">
-                        <p className="text-blue-300 font-mono text-xs uppercase tracking-widest mb-1">Score</p>
-                        <p className="text-6xl font-bold font-mono text-white animate-score-pop drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
-                            {score}
-                        </p>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent my-4" />
-
-                    {/* High Score */}
-                    <div className="text-center">
-                        <p className="text-blue-300 font-mono text-xs uppercase tracking-widest mb-1">Best</p>
-                        <p className="text-3xl font-bold font-mono text-cyan-400">
-                            {highScore}
-                        </p>
-                    </div>
-
-                    {/* New Record Badge */}
-                    {isNewRecord && (
-                        <div className="mt-4 text-center">
-                            <span className="inline-block bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold font-mono text-xs px-4 py-1 rounded-full animate-pulse shadow-[0_0_15px_rgba(234,179,8,0.6)]">
-                                🎉 NEW RECORD! 🎉
-                            </span>
-                        </div>
-                    )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col gap-3 w-full animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                {/* Action Buttons (Moved to Top) */}
+                <div className="flex flex-col gap-3 w-full animate-fade-in-up mb-6" style={{ animationDelay: '0.2s' }}>
 
                     {/* Play Again - Primary (Round & Central) */}
                     <div className="flex justify-center w-full -mt-2 mb-2">
@@ -114,6 +77,43 @@ export default function GameOverMenu({
                         ← Back to Menu
                     </button>
                 </div>
+
+                {/* Score Panel (Moved to Middle) */}
+                <div className="bg-[#1E293B]/90 backdrop-blur-md border border-cyan-500/30 rounded-xl p-6 mb-6 w-full shadow-[0_0_20px_rgba(0,212,255,0.15)] animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+
+                    {/* Current Score */}
+                    <div className="text-center mb-4">
+                        <p className="text-blue-300 font-mono text-xs uppercase tracking-widest mb-1">Score</p>
+                        <p className="text-6xl font-bold font-mono text-white animate-score-pop drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+                            {score}
+                        </p>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent my-4" />
+
+                    {/* High Score */}
+                    <div className="text-center">
+                        <p className="text-blue-300 font-mono text-xs uppercase tracking-widest mb-1">Best</p>
+                        <p className="text-3xl font-bold font-mono text-cyan-400">
+                            {highScore}
+                        </p>
+                    </div>
+
+                    {/* New Record Badge */}
+                    {isNewRecord && (
+                        <div className="mt-4 text-center">
+                            <span className="inline-block bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold font-mono text-xs px-4 py-1 rounded-full animate-pulse shadow-[0_0_15px_rgba(234,179,8,0.6)]">
+                                🎉 NEW RECORD! 🎉
+                            </span>
+                        </div>
+                    )}
+                </div>
+
+                {/* Game Over Title (Moved to Bottom) */}
+                <h2 className="w-full text-center text-3xl font-bold font-mono text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-fade-in-up whitespace-nowrap order-last">
+                    GAME OVER
+                </h2>
             </div>
         </div>
     );
