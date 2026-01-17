@@ -12,11 +12,12 @@ export async function GET() {
     if (!appUrl) {
         if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
             appUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-        } else if (process.env.VERCEL_URL) {
-            appUrl = `https://${process.env.VERCEL_URL}`;
         } else {
             appUrl = 'https://basebird.space';
         }
+    } else if (appUrl.includes('localhost')) {
+        // Force production URL if localhost is detected in NEXT_PUBLIC_URL
+        appUrl = 'https://basebird.space';
     }
 
     // Ensure no trailing slash
