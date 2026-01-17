@@ -203,7 +203,7 @@ export default function ShopModal({
                 {/* Footer Info */}
                 <div className="mt-4 pt-3 border-t border-gray-600">
                     <p className="text-[10px] text-gray-500 font-mono text-center">
-                        💎 Mint the Base Blue Jay for free (pay only gas) • Buy premium skins with ETH
+                        🎮 First bird required to play! Mint the Base Blue Jay for FREE (gas only)
                     </p>
                 </div>
 

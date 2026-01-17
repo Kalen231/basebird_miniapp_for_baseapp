@@ -9,6 +9,7 @@ import GameOverMenu from "@/components/Menu/GameOverMenu";
 import InventoryModal from "@/components/Menu/InventoryModal";
 import LeaderboardModal from "@/components/Menu/LeaderboardModal";
 import AchievementsModal from "@/components/Menu/AchievementsModal";
+import NoBirdWarning from "@/components/Menu/NoBirdWarning";
 import { sdk } from "@farcaster/miniapp-sdk";
 import { useGameData } from "@/hooks/useGameData";
 import { GameScreen } from "@/types/game";
@@ -40,6 +41,7 @@ export default function Home() {
     const [isInventoryOpen, setIsInventoryOpen] = useState(false);
     const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
     const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
+    const [isNoBirdWarningOpen, setIsNoBirdWarningOpen] = useState(false);
 
     // Skins State
     const [activeSkin, setActiveSkin] = useState('base_blue_jay');
@@ -53,6 +55,12 @@ export default function Home() {
     }, [fid, displayName, syncUser, fetchAchievements]);
 
     const handlePlay = useCallback(() => {
+        // Check if user owns at least one bird
+        if (ownedSkus.length === 0) {
+            setIsNoBirdWarningOpen(true);
+            return;
+        }
+
         setCurrentScore(0);
         setScreen('playing');
 
@@ -60,7 +68,7 @@ export default function Home() {
         if (gamesPlayed === 0) {
             unlockAchievement('first_game');
         }
-    }, [gamesPlayed, unlockAchievement]);
+    }, [gamesPlayed, unlockAchievement, ownedSkus]);
 
     const handleGameOver = (score: number) => {
         setCurrentScore(score);
@@ -191,6 +199,15 @@ export default function Home() {
                 onClose={() => setIsAchievementsOpen(false)}
                 userAchievements={userAchievements}
                 onMintSuccess={handleAchievementMintSuccess}
+            />
+
+            <NoBirdWarning
+                isOpen={isNoBirdWarningOpen}
+                onClose={() => setIsNoBirdWarningOpen(false)}
+                onGoToShop={() => {
+                    setIsNoBirdWarningOpen(false);
+                    setIsShopOpen(true);
+                }}
             />
         </main>
     );
