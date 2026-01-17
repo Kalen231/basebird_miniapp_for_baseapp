@@ -1,4 +1,4 @@
-export const DAILY_STREAK_ADDRESS = "0x0000000000000000000000000000000000000000"; // TODO: Deploy contracts/DailyStreak.sol and update this!
+export const DAILY_STREAK_ADDRESS = "0xB455355f6641C7872045E94a70ac46d6e81b7536"; // TODO: Deploy contracts/DailyStreak.sol and update this!
 
 export const DAILY_STREAK_ABI = [
     {
