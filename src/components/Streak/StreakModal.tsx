@@ -145,11 +145,7 @@ export default function StreakModal({
                 )}
 
                 {/* Mock/Error Warning (Visually hidden if working, helps debugging) */}
-                {DAILY_STREAK_ADDRESS === "0x0000000000000000000000000000000000000000" && (
-                    <p className="mt-4 text-xs text-red-500 text-center font-mono bg-black/50 p-2 rounded">
-                        ⚠️ CONTRACT NOT DEPLOYED.<br />Please deploy DailyStreak.sol and update logic.
-                    </p>
-                )}
+
                 {writeError && (
                     <p className="mt-4 text-xs text-red-500 text-center font-mono bg-black/50 p-2 rounded break-all">
                         Error: {writeError.message.slice(0, 100)}...
