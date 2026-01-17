@@ -8,11 +8,6 @@ import DebugMonitor from "@/components/DebugMonitor";
 const inter = Inter({ subsets: ["latin"] });
 
 function getAppUrl() {
-    if (process.env.NEXT_PUBLIC_URL && !process.env.NEXT_PUBLIC_URL.includes('localhost')) {
-        return process.env.NEXT_PUBLIC_URL;
-    }
-    if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
     return "https://basebird.space";
 }
 

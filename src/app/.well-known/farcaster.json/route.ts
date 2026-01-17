@@ -7,26 +7,9 @@ export async function GET() {
     // 3. VERCEL_URL (Auto-set by Vercel for preview/dev - often lacks https://)
     // 4. Hardcoded fallback
 
-    let appUrl = process.env.NEXT_PUBLIC_URL;
-
-    if (!appUrl) {
-        if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-            appUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-        } else {
-            appUrl = 'https://basebird.space';
-        }
-    } else if (appUrl.includes('localhost')) {
-        // Force production URL if localhost is detected in NEXT_PUBLIC_URL
-        appUrl = 'https://basebird.space';
-    }
-
-    // Ensure no trailing slash
-    appUrl = appUrl.replace(/\/$/, '');
-
-    // Force HTTPS if not localhost
-    if (!appUrl.startsWith('http://localhost') && !appUrl.startsWith('https://')) {
-        appUrl = appUrl.replace('http://', 'https://');
-    }
+    // URL Resolution priorities:
+    // 1. Hardcoded production URL to ensure valid manifest
+    const appUrl = 'https://basebird.space';
 
     const config = {
         accountAssociation: {
