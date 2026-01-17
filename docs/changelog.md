@@ -72,3 +72,8 @@
 - **Hooks**: Extracted data fetching logic (sync, achievements) into `src/hooks/useGameData.ts`.
 - **Refactor**: Cleaned up `GameCanvas.tsx` and `page.tsx` by removing hardcoded values and inline types.
 - **Verification**: Verified build success ensuring no regressions.
+
+## [2026-01-17] Farcaster Mini App Loading Fixes
+- **Critical Fix**: Updated Providers.tsx to remove aggressive iframe detection that was blocking sdk.actions.ready() in some environments. Added robust fallback timeout to ensure app always initializes.
+- **Environment**: Updated src/app/layout.tsx to dynamically use NEXT_PUBLIC_URL for the embed URL, ensuring Vercel deployments point to the correct domain instead of hardcoded asebird.space.
+- **Stability**: These changes resolve the 'Ready not called' error and splash screen hang issues reported by the user.

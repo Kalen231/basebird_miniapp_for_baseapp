@@ -43,17 +43,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         };
 
         const initSDK = async () => {
-            // Check if we're definitely NOT in Farcaster (quick check)
-            const isInIframe = typeof window !== 'undefined' && window.parent !== window;
 
-            if (!isInIframe) {
-                // Not in iframe = definitely not in Farcaster
-                console.log('🎮 Not in iframe - using LOCAL DEV MODE');
-                setIsDevMode(true);
-                setContext(fallbackContext);
-                setIsSDKLoaded(true);
-                return;
-            }
 
             // We might be in Farcaster - try with timeout using Promise.race
             const timeoutPromise = new Promise<null>((resolve) => {
