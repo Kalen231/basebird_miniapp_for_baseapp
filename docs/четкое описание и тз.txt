@@ -44,7 +44,7 @@ Frontend вызывает sendTransaction.
 ПРОМПТ 2: Игровой движок (Physics & Canvas)
 
 Создай компонент src/components/Game/GameCanvas.tsx. Обязательно используй 'use client'.
-Задача: Реализовать клон Flappy Bird на Canvas.
+Задача: Реализовать клон Base Bird на Canvas.
 
 1. Используй requestAnimationFrame для игрового цикла.
 2. Состояние: Храни gameState ('start', 'playing', 'gameover') в React state.
@@ -114,7 +114,7 @@ d) Если всё ОК — запиши в БД и верни успех.
 
 1. Сделай экран "Game Over". Показывай текущий счет и High Score (бери из профиля юзера).
 2. Если юзер побил рекорд — отправляй POST на /api/user/score (создай этот роут), чтобы обновить high_score в БД.
-3. Добавь кнопку "Share" (используй sdk.actions.openUrl), которая формирует ссылку на Warpcast с текстом: "Мой рекорд {score} в Flappy Bird! Сможешь побить?".
+3. Добавь кнопку "Share" (используй sdk.actions.openUrl), которая формирует ссылку на Warpcast с текстом: "Мой рекорд {score} в Base Bird! Сможешь побить?".
 
 
 

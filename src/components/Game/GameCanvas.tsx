@@ -51,10 +51,10 @@ export default function GameCanvas({
                 return img;
             };
 
-            // Static assets
-            bgImg.current = load('/background.svg');
-            pipeBodyImg.current = load('/pipe_body.svg');
-            pipeCapImg.current = load('/pipe_cap.svg');
+            // Static assets (new crypto-themed design)
+            bgImg.current = load('/background_new.svg');
+            pipeBodyImg.current = load('/pipe_body_new.svg');
+            pipeCapImg.current = load('/pipe_cap_new.svg');
         }
     }, []);
 
@@ -290,7 +290,11 @@ export default function GameCanvas({
         if (bgImg.current && bgImg.current.complete && bgImg.current.naturalWidth > 0) {
             ctx.drawImage(bgImg.current, 0, 0, width, height);
         } else {
-            ctx.fillStyle = '#70c5ce';
+            // Fallback: dark gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, '#0A0B14');
+            gradient.addColorStop(1, '#111827');
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);
         }
 
@@ -307,9 +311,15 @@ export default function GameCanvas({
                 ctx.drawImage(pipeCapImg.current, pipe.x, bottomPipeY, PIPE_WIDTH, PIPE_CAP_HEIGHT);
                 ctx.drawImage(pipeBodyImg.current, pipe.x, bottomPipeY + PIPE_CAP_HEIGHT, PIPE_WIDTH, bottomPipeHeight - PIPE_CAP_HEIGHT);
             } else {
-                ctx.fillStyle = '#22c55e';
+                // Fallback: neon glass pillars
+                ctx.fillStyle = '#1E2436';
                 ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.topHeight);
                 ctx.fillRect(pipe.x, pipe.topHeight + PIPE_GAP, PIPE_WIDTH, height - (pipe.topHeight + PIPE_GAP));
+                // Neon edge glow
+                ctx.strokeStyle = '#00D4FF';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(pipe.x, 0, PIPE_WIDTH, pipe.topHeight);
+                ctx.strokeRect(pipe.x, pipe.topHeight + PIPE_GAP, PIPE_WIDTH, height - (pipe.topHeight + PIPE_GAP));
             }
         });
 
@@ -361,7 +371,7 @@ export default function GameCanvas({
     }, []);
 
     return (
-        <div className="relative w-full max-w-[430px] mx-auto h-[600px] overflow-hidden border-4 border-black bg-sky-200">
+        <div className="relative w-full max-w-[430px] mx-auto h-[600px] overflow-hidden border-2 border-cyan-400/30 bg-[#0A0B14] rounded-lg shadow-[0_0_20px_rgba(0,212,255,0.2)]">
             <canvas
                 ref={canvasRef}
                 width={430}
@@ -373,9 +383,9 @@ export default function GameCanvas({
                 }}
             />
 
-            {/* Score HUD */}
+            {/* Score HUD - Holographic style */}
             <div className="absolute top-10 w-full text-center pointer-events-none">
-                <span className="text-5xl font-bold text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] font-mono">{score}</span>
+                <span className="text-5xl font-bold text-cyan-300 drop-shadow-[0_0_10px_rgba(0,212,255,0.8)] font-mono tracking-wider">{score}</span>
             </div>
         </div>
     );

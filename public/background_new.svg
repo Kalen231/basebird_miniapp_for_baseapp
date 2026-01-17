@@ -1,0 +1,115 @@
+<svg width="430" height="600" viewBox="0 0 430 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A0B14"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    
+    <!-- Glow filter for nodes -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Data stream glow -->
+    <linearGradient id="streamGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00D4FF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00D4FF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00D4FF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="430" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Grid pattern -->
+  <g stroke="#1E2436" stroke-width="0.5" opacity="0.5">
+    <!-- Vertical lines -->
+    <line x1="50" y1="0" x2="50" y2="600"/>
+    <line x1="100" y1="0" x2="100" y2="600"/>
+    <line x1="150" y1="0" x2="150" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="600"/>
+    <line x1="250" y1="0" x2="250" y2="600"/>
+    <line x1="300" y1="0" x2="300" y2="600"/>
+    <line x1="350" y1="0" x2="350" y2="600"/>
+    <line x1="400" y1="0" x2="400" y2="600"/>
+    <!-- Horizontal lines -->
+    <line x1="0" y1="50" x2="430" y2="50"/>
+    <line x1="0" y1="100" x2="430" y2="100"/>
+    <line x1="0" y1="150" x2="430" y2="150"/>
+    <line x1="0" y1="200" x2="430" y2="200"/>
+    <line x1="0" y1="250" x2="430" y2="250"/>
+    <line x1="0" y1="300" x2="430" y2="300"/>
+    <line x1="0" y1="350" x2="430" y2="350"/>
+    <line x1="0" y1="400" x2="430" y2="400"/>
+    <line x1="0" y1="450" x2="430" y2="450"/>
+    <line x1="0" y1="500" x2="430" y2="500"/>
+    <line x1="0" y1="550" x2="430" y2="550"/>
+  </g>
+  
+  <!-- Data streams -->
+  <g opacity="0.9">
+    <rect x="0" y="80" width="180" height="2" fill="url(#streamGlow)"/>
+    <rect x="100" y="150" width="250" height="1.5" fill="url(#streamGlow)"/>
+    <rect x="50" y="220" width="200" height="2" fill="url(#streamGlow)"/>
+    <rect x="200" y="280" width="180" height="1.5" fill="url(#streamGlow)"/>
+    <rect x="0" y="350" width="280" height="2" fill="url(#streamGlow)"/>
+    <rect x="150" y="420" width="220" height="1.5" fill="url(#streamGlow)"/>
+  </g>
+  
+  <!-- Network nodes (glowing dots) -->
+  <g fill="#00D4FF" filter="url(#glow)">
+    <circle cx="80" cy="60" r="2"/>
+    <circle cx="320" cy="90" r="1.5"/>
+    <circle cx="180" cy="130" r="2"/>
+    <circle cx="400" cy="180" r="1.5"/>
+    <circle cx="50" cy="250" r="2"/>
+    <circle cx="280" cy="300" r="1.5"/>
+    <circle cx="120" cy="380" r="2"/>
+    <circle cx="380" cy="420" r="1.5"/>
+    <circle cx="200" cy="480" r="2"/>
+  </g>
+  
+  <!-- Base Blue accent nodes -->
+  <g fill="#0052FF" filter="url(#glow)">
+    <circle cx="350" cy="120" r="3"/>
+    <circle cx="100" cy="310" r="2.5"/>
+    <circle cx="300" cy="500" r="3"/>
+  </g>
+  
+  <!-- Digital cityscape silhouette -->
+  <g fill="#1E2436" opacity="0.8">
+    <rect x="0" y="520" width="40" height="80"/>
+    <rect x="45" y="500" width="30" height="100"/>
+    <rect x="80" y="530" width="25" height="70"/>
+    <rect x="110" y="480" width="35" height="120"/>
+    <rect x="150" y="510" width="40" height="90"/>
+    <rect x="195" y="540" width="30" height="60"/>
+    <rect x="230" y="490" width="45" height="110"/>
+    <rect x="280" y="520" width="35" height="80"/>
+    <rect x="320" y="470" width="40" height="130"/>
+    <rect x="365" y="510" width="30" height="90"/>
+    <rect x="400" y="530" width="30" height="70"/>
+  </g>
+  
+  <!-- City windows (glowing) -->
+  <g fill="#0052FF" opacity="0.6">
+    <rect x="10" y="540" width="4" height="3"/>
+    <rect x="25" y="555" width="4" height="3"/>
+    <rect x="55" y="520" width="4" height="3"/>
+    <rect x="55" y="545" width="4" height="3"/>
+    <rect x="120" y="500" width="5" height="4"/>
+    <rect x="130" y="530" width="5" height="4"/>
+    <rect x="245" y="510" width="5" height="4"/>
+    <rect x="255" y="540" width="5" height="4"/>
+    <rect x="335" y="490" width="5" height="4"/>
+    <rect x="340" y="520" width="5" height="4"/>
+  </g>
+  
+  <!-- Horizon glow -->
+  <rect x="0" y="565" width="430" height="35" fill="#0052FF" opacity="0.08"/>
+</svg>

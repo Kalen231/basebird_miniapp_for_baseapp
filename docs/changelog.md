@@ -77,3 +77,12 @@
 - **Critical Fix**: Updated Providers.tsx to remove aggressive iframe detection that was blocking sdk.actions.ready() in some environments. Added robust fallback timeout to ensure app always initializes.
 - **Environment**: Updated src/app/layout.tsx to dynamically use NEXT_PUBLIC_URL for the embed URL, ensuring Vercel deployments point to the correct domain instead of hardcoded asebird.space.
 - **Stability**: These changes resolve the 'Ready not called' error and splash screen hang issues reported by the user.
+
+## [2026-01-17] Visual Redesign - "Neon Datastream" Theme
+- **Theme**: Complete visual overhaul from classic Flappy Bird to dark crypto-futuristic aesthetic.
+- **Background**: New `background_new.svg` with dark gradient (#0A0B14 to #111827), grid pattern, data streams, network nodes, and digital cityscape.
+- **Pipes**: New `pipe_body_new.svg` and `pipe_cap_new.svg` as "Glass Pillars" with semi-transparent dark fill and neon cyan (#00D4FF) glow edges.
+- **UI**: Updated game container with dark background, cyan glow border, and holographic score display.
+- **Colors**: Adopted Base blockchain color palette (Base Blue #0052FF, Neon Cyan #00D4FF, Deep Void #0A0B14).
+- **Note**: Bird skins remain unchanged as per design requirements.
+

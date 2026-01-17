@@ -1,4 +1,4 @@
-# Инструкция по деплою Flappy Bird Frame
+# Инструкция по деплою Base Bird Frame
 
 ## 1. Подготовка
 
@@ -12,7 +12,7 @@
 
 1.  Войдите в [Vercel](https://vercel.com).
 2.  Нажмите **Add New...** -> **Project**.
-3.  Импортируйте ваш репозиторий GitHub `flappy-bird-frame` (или как вы его назвали).
+3.  Импортируйте ваш репозиторий GitHub `basebird-frame` (или как вы его назвали).
 4.  **Настройка проекта**:
     *   **Framework Preset**: Next.js (должен определиться автоматически).
     *   **Root Directory**: `./` (по умолчанию).
@@ -32,9 +32,9 @@
 
 Farcaster Frame v2 требует манифест домена с действительной подписью.
 
-1.  **Получите свой домен**: Скопируйте домен Vercel (например, `https://flappy-bird-awesome.vercel.app`).
+1.  **Получите свой домен**: Скопируйте домен Vercel (например, `https://basebird.vercel.app`).
 2.  **Подпишите домен**:
-    *   Перейдите в [Инструмент верификации доменов Farcaster](https://warpcast.com/~/developers/frames) или используйте скрипт, чтобы подписать строку JSON `{"domain":"flappy-bird-awesome.vercel.app"}` своим адресом (custody address) Farcaster.
+    *   Перейдите в [Инструмент верификации доменов Farcaster](https://warpcast.com/~/developers/frames) или используйте скрипт, чтобы подписать строку JSON `{"domain":"basebird.vercel.app"}` своим адресом (custody address) Farcaster.
     *   Вы получите **Signature** (подпись).
 3.  **Обновите код**:
     *   Откройте файл `src/app/.well-known/farcaster.json/route.ts`.

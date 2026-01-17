@@ -71,7 +71,7 @@ export default function MainMenu({
 
                 {/* Title */}
                 <h1 className="text-5xl font-bold font-mono text-white mb-2 animate-title-glow drop-shadow-[0_4px_0_rgba(0,0,0,0.3)]">
-                    FLAPPY
+                    BASE
                 </h1>
                 <h1 className="text-5xl font-bold font-mono text-yellow-400 mb-6 animate-title-glow drop-shadow-[0_4px_0_rgba(0,0,0,0.3)]">
                     BIRD

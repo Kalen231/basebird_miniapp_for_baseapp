@@ -32,7 +32,7 @@ alter table public.users enable row level security;
 alter table public.purchases enable row level security;
 alter table public.achievements enable row level security;
 
--- Политики для users: разрешаем всё для простоты (в Flappy Bird это ок)
+-- Политики для users: разрешаем всё для простоты (в Base Bird это ок)
 create policy "Allow all for users" on public.users for all using (true) with check (true);
 
 -- Политики для purchases: разрешаем чтение и вставку

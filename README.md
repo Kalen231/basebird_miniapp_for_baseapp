@@ -1,10 +1,10 @@
-# Flappy Bird Frame (Farcaster Mini App)
+# Base Bird Frame (Farcaster Mini App)
 
-A Flappy Bird clone built for Farcaster Frames v2 using Next.js, Tailwind CSS, and HTML5 Canvas.
+A Base Bird clone built for Farcaster Frames v2 using Next.js, Tailwind CSS, and HTML5 Canvas.
 
 ## Features
 
--   **Game Engine**: Pure HTML5 Canvas implementation of Flappy Bird.
+-   **Game Engine**: Pure HTML5 Canvas implementation of Base Bird.
 -   **Farcaster Integration**: Uses `@farcaster/frame-sdk` for Frame v2 compatibility.
 -   **Database**: Supabase integration for storing user scores and profiles.
 -   **Web3 Payments**: Base Mainnet integration via Wagmi & Viem for in-game purchases (Pay-to-Win mechanics).
