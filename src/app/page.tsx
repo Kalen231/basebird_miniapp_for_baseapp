@@ -108,14 +108,8 @@ export default function Home() {
         fetchAchievements();
     };
 
-    if (isLoading) {
-        return (
-            <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-zinc-900 text-white">
-                <div className="animate-spin w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full mb-4" />
-                <p className="font-mono">Loading...</p>
-            </main>
-        );
-    }
+    // Don't block on loading - show UI immediately while context loads in background
+    // if (isLoading) { ... } - REMOVED to prevent 20 second delay
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-zinc-900">

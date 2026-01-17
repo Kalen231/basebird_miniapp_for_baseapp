@@ -1,29 +1,18 @@
-// Farcaster Mini App Immediate Initialization
-// This script runs BEFORE React hydrates to call ready() as fast as possible
-(async function () {
+// Farcaster Mini App Initialization Flag
+// This script just sets up early flags - SDK loaded by React bundle is faster
+(function () {
     if (typeof window === 'undefined') return;
 
-    // Check if we're likely in a Farcaster context (iframe or RN WebView)
-    const isInIframe = window.parent !== window;
-    const isReactNativeWebView = !!(window.ReactNativeWebView);
+    // Mark that we're initializing
+    window.__FARCASTER_INIT_START__ = Date.now();
 
-    if (!isInIframe && !isReactNativeWebView) {
-        console.log('🖥️ Not in Farcaster context, skipping early ready()');
-        return;
-    }
+    // Check if we're in Farcaster context
+    var isInIframe = window.parent !== window;
+    var isReactNativeWebView = !!(window.ReactNativeWebView);
 
-    try {
-        // Dynamically import the SDK
-        const { sdk } = await import('https://esm.sh/@farcaster/miniapp-sdk@latest');
+    window.__FARCASTER_CONTEXT_DETECTED__ = isInIframe || isReactNativeWebView;
 
-        // Call ready() immediately to hide splash screen
-        await sdk.actions.ready();
-        console.log('✅ sdk.actions.ready() called before React hydration');
-
-        // Store flag so Providers.tsx knows ready was already called
-        window.__FARCASTER_READY_CALLED__ = true;
-    } catch (error) {
-        // Not in Farcaster environment or SDK failed - this is expected for local dev
-        console.log('⏭️ Early ready() skipped:', error.message);
+    if (window.__FARCASTER_CONTEXT_DETECTED__) {
+        console.log('🚀 Farcaster context detected, waiting for SDK...');
     }
 })();

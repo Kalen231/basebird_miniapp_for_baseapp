@@ -40,8 +40,8 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                {/* Load Farcaster SDK init script BEFORE React to call ready() immediately */}
-                <script src="/farcaster-init.js" async />
+                {/* Early Farcaster context detection */}
+                <script src="/farcaster-init.js" />
             </head>
             <body className={inter.className}>
                 <Providers>

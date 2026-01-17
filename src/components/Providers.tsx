@@ -44,22 +44,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
         };
 
         const initSDK = async () => {
-            // Check if ready() was already called by farcaster-init.js
-            const readyAlreadyCalled = !!(window as any).__FARCASTER_READY_CALLED__;
+            const startTime = (window as any).__FARCASTER_INIT_START__ || Date.now();
+            const contextDetected = !!(window as any).__FARCASTER_CONTEXT_DETECTED__;
 
-            if (!readyAlreadyCalled) {
-                // Fallback: call ready() now if init script didn't run
+            // CRITICAL: Call ready() IMMEDIATELY - this hides splash screen
+            // Do NOT wait for context - that causes the 20 second delay!
+            if (contextDetected) {
                 try {
                     await sdk.actions.ready();
-                    console.log('✅ sdk.actions.ready() called in React');
+                    console.log(`✅ sdk.actions.ready() called in ${Date.now() - startTime}ms`);
                 } catch (e) {
-                    console.log('⏭️ ready() call skipped (not in Farcaster)');
+                    console.log('⏭️ ready() call failed:', e);
                 }
-            } else {
-                console.log('✅ ready() was already called by init script');
             }
 
-            // Fast detection using isInMiniApp
+            // Mark SDK as loaded IMMEDIATELY after ready() - don't block on context
+            setIsSDKLoaded(true);
+
+            // Now load context asynchronously - this can take time but UI is visible
             try {
                 const isMiniApp = await sdk.isInMiniApp();
 
@@ -77,8 +79,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 setIsDevMode(true);
                 setContext(fallbackContext);
             }
-
-            setIsSDKLoaded(true);
         };
 
         initSDK();
