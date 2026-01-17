@@ -43,6 +43,11 @@ export default function ShopModal({
             setBuyingSkuId(skuId);
             setError(null);
 
+            // Ensure connected
+            // Note: In Farcaster, we expect auto-connect. If not connected, we should error or try to connect.
+            // But useSendTransaction usually throws if not connected.
+
+
             // 1. Send Transaction
             const hash = await sendTransactionAsync({
                 to: adminWallet as `0x${string}`,
@@ -76,7 +81,12 @@ export default function ShopModal({
             setBuyingSkuId(null);
         },
         onError: (err) => {
-            setError(err.message);
+            console.error("Purchase error:", err);
+            if (err.message.includes("Connector not connected")) {
+                setError("Wallet disconnected. Please reload the frame.");
+            } else {
+                setError(err.message);
+            }
             setBuyingSkuId(null);
         }
     });
@@ -175,8 +185,8 @@ export default function ShopModal({
                                         onClick={() => handleBuy(skin)}
                                         disabled={isBuying(skin.skuId) || purchaseMutation.isPending}
                                         className={`px-3 py-1.5 font-bold font-mono text-xs border-2 active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed ${skin.isMintable
-                                                ? 'bg-green-600 hover:bg-green-500 text-white border-green-400'
-                                                : 'bg-blue-600 hover:bg-blue-500 text-white border-blue-400'
+                                            ? 'bg-green-600 hover:bg-green-500 text-white border-green-400'
+                                            : 'bg-blue-600 hover:bg-blue-500 text-white border-blue-400'
                                             }`}
                                     >
                                         {isBuying(skin.skuId)

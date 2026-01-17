@@ -10,4 +10,5 @@ export const config = createConfig({
     transports: {
         [base.id]: http(),
     },
+    ssr: true,
 })

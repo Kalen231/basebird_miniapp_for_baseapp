@@ -80,7 +80,12 @@ export default function AchievementsModal({
             setMintingId(null);
         },
         onError: (err) => {
-            setError(err.message);
+            console.error("Mint error:", err);
+            if (err.message.includes("Connector not connected")) {
+                setError("Wallet disconnected. Please reload the frame.");
+            } else {
+                setError(err.message);
+            }
             setMintingId(null);
         }
     });
@@ -130,8 +135,8 @@ export default function AchievementsModal({
                             <div
                                 key={achievement.id}
                                 className={`flex items-center justify-between p-3 bg-zinc-900 border-2 transition-all ${status === 'minted' ? 'border-yellow-500' :
-                                        status === 'unlocked' ? 'border-green-500' :
-                                            'border-gray-700 opacity-60'
+                                    status === 'unlocked' ? 'border-green-500' :
+                                        'border-gray-700 opacity-60'
                                     }`}
                             >
                                 {/* Left: Icon + Info */}
