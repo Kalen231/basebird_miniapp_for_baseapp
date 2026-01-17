@@ -9,6 +9,6 @@ export const GAME_CONFIG = {
     PIPE_CAP_HEIGHT: 20,
     MIN_PIPE_HEIGHT: 50,
     // Hitbox scales
-    HITBOX_NORMAL: 1.0,
-    HITBOX_SMALL: 0.7,
+    HITBOX_NORMAL: 0.6,
+    HITBOX_SMALL: 0.4,
 };
