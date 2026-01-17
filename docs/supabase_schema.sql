@@ -10,7 +10,7 @@ create table public.users (
 -- Создание таблицы purchases
 create table public.purchases (
   id uuid default gen_random_uuid() primary key,
-  fid bigint references public.users(fid),
+  fid bigint references public.users(fid) on delete cascade,
   sku_id text not null,
   tx_hash text unique not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
@@ -19,7 +19,7 @@ create table public.purchases (
 -- Создание таблицы achievements (разблокированные достижения)
 create table public.achievements (
   id uuid default gen_random_uuid() primary key,
-  fid bigint references public.users(fid),
+  fid bigint references public.users(fid) on delete cascade,
   achievement_id text not null,
   unlocked_at timestamp with time zone default timezone('utc'::text, now()) not null,
   minted boolean default false,

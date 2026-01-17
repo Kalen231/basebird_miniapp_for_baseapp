@@ -104,3 +104,11 @@
 
 ## [2026-01-17] Polish - Bird Trail Alignment
 - **Visuals**: Adjusted the particle spawn position for the default "blocks" trail style. Particles now emanate from within the bird sprite (x+20) rather than spawning detached behind it (x-5), creating a more cohesive visual effect that connects the trail to the bird as requested.
+
+## [2026-01-17] Database Fix - Cascade Deletes
+- **Schema**: Updated `docs/supabase_schema.sql` to include `ON DELETE CASCADE` for **both** `achievements` and `purchases` tables.
+- **Fix**: This resolves the "Unable to delete row" error when removing a user, ensuring all related data is automatically cleaned up.
+
+## [2026-01-17] Polish - Play Again Button
+- **UI**: Redesigned the "Play Again" button in the Game Over menu to be a circular, centered icon button.
+- **UX**: Moved the button "higher" (closer to score, separated from bottom menu) and updated its position to prevent accidental clicks after game over.

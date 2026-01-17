@@ -71,13 +71,16 @@ export default function GameOverMenu({
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-3 w-full animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
 
-                    {/* Play Again - Primary */}
-                    <button
-                        onClick={onPlayAgain}
-                        className="menu-btn menu-btn-primary w-full"
-                    >
-                        ▶ PLAY AGAIN
-                    </button>
+                    {/* Play Again - Primary (Round & Central) */}
+                    <div className="flex justify-center w-full -mt-2 mb-2">
+                        <button
+                            onClick={onPlayAgain}
+                            className="menu-btn menu-btn-primary rounded-full w-20 h-20 flex items-center justify-center p-0 text-4xl shadow-[0_0_20px_rgba(0,212,255,0.4)] hover:scale-105 active:scale-95 transition-all transform"
+                            aria-label="Play Again"
+                        >
+                            ▶
+                        </button>
+                    </div>
 
                     {/* Secondary Actions Row */}
                     <div className="flex gap-2">
