@@ -11,15 +11,15 @@ const appUrl = "https://basebird.space";
 
 const miniappEmbed = {
     version: "1",
-    imageUrl: `${appUrl}/hero_image.png`,
+    imageUrl: `${appUrl}/hero_new.png`,
     button: {
         title: "Play BaseBird",
         action: {
             type: "launch_frame",
             name: "BaseBird",
             url: appUrl,
-            splashImageUrl: `${appUrl}/icon.png`,
-            splashBackgroundColor: "#000000"
+            splashImageUrl: `${appUrl}/splash_new.png`,
+            splashBackgroundColor: "#0A0B14"
         }
     }
 };
