@@ -44,38 +44,36 @@ export function Providers({ children }: { children: React.ReactNode }) {
         };
 
         const initSDK = async () => {
-            // CRITICAL FIX: Call ready() FIRST to hide splash screen immediately
-            // Per Farcaster docs: "If you don't call ready(), users will see an infinite loading screen"
-            try {
-                await sdk.actions.ready();
-                console.log('✅ sdk.actions.ready() called immediately');
-            } catch (readyError) {
-                // Not in Farcaster environment - this is expected for local dev
-                console.warn('sdk.actions.ready() failed (expected if not in Farcaster):', readyError);
+            // Check if ready() was already called by farcaster-init.js
+            const readyAlreadyCalled = !!(window as any).__FARCASTER_READY_CALLED__;
+
+            if (!readyAlreadyCalled) {
+                // Fallback: call ready() now if init script didn't run
+                try {
+                    await sdk.actions.ready();
+                    console.log('✅ sdk.actions.ready() called in React');
+                } catch (e) {
+                    console.log('⏭️ ready() call skipped (not in Farcaster)');
+                }
+            } else {
+                console.log('✅ ready() was already called by init script');
             }
 
-            // Now try to get context asynchronously (non-blocking)
+            // Fast detection using isInMiniApp
             try {
-                const timeoutPromise = new Promise<null>((_, reject) => {
-                    setTimeout(() => reject(new Error('Context timeout')), SDK_CONTEXT_TIMEOUT_MS);
-                });
+                const isMiniApp = await sdk.isInMiniApp();
 
-                const result = await Promise.race([
-                    sdk.context,
-                    timeoutPromise
-                ]);
-
-                if (result) {
+                if (isMiniApp) {
+                    const ctx = await sdk.context;
                     console.log('✅ Farcaster context loaded');
-                    setContext(result);
+                    setContext(ctx);
                 } else {
-                    console.warn('⚠️ SDK returned null context');
+                    console.log('🎮 Not in Mini App, using dev mode');
                     setIsDevMode(true);
                     setContext(fallbackContext);
                 }
             } catch (error) {
-                // Timeout or error - use dev mode (this is fine)
-                console.log('🎮 Using dev mode (context timeout or not in Farcaster)');
+                console.log('🎮 Detection failed, using dev mode');
                 setIsDevMode(true);
                 setContext(fallbackContext);
             }
