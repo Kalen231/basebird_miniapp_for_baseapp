@@ -79,12 +79,11 @@ export default function GameCanvas({
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const data = imageData.data;
 
-            // Target color: Magenta #FF00FF (255, 0, 255)
-            // We use a small tolerance to handle compression artifacts if any
+            // Target color: White #FFFFFF
             const targetR = 255;
-            const targetG = 0;
+            const targetG = 255;
             const targetB = 255;
-            const tolerance = 50; // Increased tolerance for reliability
+            const tolerance = 10; // Small tolerance for almost-white pixels
 
             for (let i = 0; i < data.length; i += 4) {
                 const r = data[i];
@@ -116,7 +115,6 @@ export default function GameCanvas({
             // Dynamic asset
             const skin = SKINS.find(s => s.id === activeSkin) || SKINS[0];
             const img = new Image();
-            img.crossOrigin = "Anonymous"; // Required for canvas manipulation if served from external
             img.src = skin.assetPath;
 
             img.onload = async () => {
