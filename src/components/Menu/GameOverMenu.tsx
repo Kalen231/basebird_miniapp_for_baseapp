@@ -19,101 +19,63 @@ export default function GameOverMenu({
     isNewRecord,
     onPlayAgain,
     onMainMenu,
-    onShare,
-    onOpenShop,
-    onOpenLeaderboard
 }: GameOverMenuProps) {
     return (
         <div className="absolute inset-0 z-20 flex items-center justify-center">
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
 
-            {/* Content */}
-            <div className="relative z-10 flex flex-col items-center px-6 max-w-[320px] w-full">
+            {/* Content - Centered Vertically */}
+            <div className="relative z-10 flex flex-col items-center justify-center px-6 w-full max-w-[320px]">
 
-                {/* Action Buttons (Moved to Top) */}
-                <div className="flex flex-col gap-3 w-full animate-fade-in-up mb-6" style={{ animationDelay: '0.2s' }}>
+                {/* Game Over Title - Large & Centered */}
+                <h1 className="text-5xl font-extrabold font-mono text-red-500 text-center mb-4 drop-shadow-[0_0_20px_rgba(239,68,68,0.7)] animate-fade-in-up tracking-wider">
+                    GAME OVER
+                </h1>
 
-                    {/* Play Again - Primary (Round & Central) */}
-                    <div className="flex justify-center w-full -mt-2 mb-2">
-                        <button
-                            onClick={onPlayAgain}
-                            className="menu-btn menu-btn-primary rounded-full w-20 h-20 flex items-center justify-center p-0 text-4xl shadow-[0_0_20px_rgba(0,212,255,0.4)] hover:scale-105 active:scale-95 transition-all transform"
-                            aria-label="Play Again"
-                        >
-                            ▶
-                        </button>
-                    </div>
+                {/* Score Display - Centered Below Title */}
+                <div className="text-center mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                    <p className="text-cyan-400 font-mono text-sm uppercase tracking-widest mb-2">Your Score</p>
+                    <p className="text-7xl font-extrabold font-mono text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] animate-score-pop">
+                        {score}
+                    </p>
 
-                    {/* Secondary Actions Row */}
-                    <div className="flex gap-2">
-                        <button
-                            onClick={onShare}
-                            className="menu-btn menu-btn-blue flex-1 text-sm py-3 px-3"
-                        >
-                            📤 SHARE
-                        </button>
-                        <button
-                            onClick={onOpenShop}
-                            className="menu-btn menu-btn-secondary flex-1 text-sm py-3 px-3"
-                        >
-                            🛒 SHOP
-                        </button>
-                    </div>
-
-                    {/* Leaderboard */}
-                    <button
-                        onClick={onOpenLeaderboard}
-                        className="menu-btn menu-btn-purple w-full text-sm py-3"
-                    >
-                        🏆 LEADERBOARD
-                    </button>
-
-                    {/* Back to Menu */}
-                    <button
-                        onClick={onMainMenu}
-                        className="text-cyan-500/70 hover:text-cyan-400 font-mono text-sm mt-3 transition-colors tracking-wide uppercase"
-                    >
-                        ← Back to Menu
-                    </button>
-                </div>
-
-                {/* Score Panel (Moved to Middle) */}
-                <div className="bg-[#1E293B]/90 backdrop-blur-md border border-cyan-500/30 rounded-xl p-6 mb-6 w-full shadow-[0_0_20px_rgba(0,212,255,0.15)] animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-
-                    {/* Current Score */}
-                    <div className="text-center mb-4">
-                        <p className="text-blue-300 font-mono text-xs uppercase tracking-widest mb-1">Score</p>
-                        <p className="text-6xl font-bold font-mono text-white animate-score-pop drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
-                            {score}
-                        </p>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent my-4" />
-
-                    {/* High Score */}
-                    <div className="text-center">
-                        <p className="text-blue-300 font-mono text-xs uppercase tracking-widest mb-1">Best</p>
-                        <p className="text-3xl font-bold font-mono text-cyan-400">
-                            {highScore}
-                        </p>
+                    {/* Best Score */}
+                    <div className="mt-4 flex items-center justify-center gap-2">
+                        <span className="text-blue-400/70 font-mono text-xs uppercase tracking-wide">Best:</span>
+                        <span className="text-cyan-300 font-mono text-lg font-bold">{highScore}</span>
                     </div>
 
                     {/* New Record Badge */}
                     {isNewRecord && (
-                        <div className="mt-4 text-center">
-                            <span className="inline-block bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold font-mono text-xs px-4 py-1 rounded-full animate-pulse shadow-[0_0_15px_rgba(234,179,8,0.6)]">
+                        <div className="mt-4">
+                            <span className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold font-mono text-sm px-5 py-2 rounded-full animate-pulse shadow-[0_0_20px_rgba(234,179,8,0.7)]">
                                 🎉 NEW RECORD! 🎉
                             </span>
                         </div>
                     )}
                 </div>
 
-                {/* Game Over Title (Moved to Bottom) */}
-                <h2 className="w-full text-center text-3xl font-bold font-mono text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-fade-in-up whitespace-nowrap order-last">
-                    GAME OVER
-                </h2>
+                {/* Action Buttons */}
+                <div className="flex flex-col gap-4 w-full max-w-[200px] animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+
+                    {/* Play Again Button - Primary, Round */}
+                    <button
+                        onClick={onPlayAgain}
+                        className="menu-btn menu-btn-primary w-full py-4 text-lg rounded-xl flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(0,212,255,0.5)] hover:shadow-[0_0_35px_rgba(0,212,255,0.7)] transition-all hover:scale-105 active:scale-95"
+                    >
+                        <span className="text-2xl">▶</span>
+                        <span>PLAY AGAIN</span>
+                    </button>
+
+                    {/* Back to Menu */}
+                    <button
+                        onClick={onMainMenu}
+                        className="text-cyan-500/60 hover:text-cyan-400 font-mono text-sm transition-colors tracking-wide uppercase py-2"
+                    >
+                        ← Back to Menu
+                    </button>
+                </div>
             </div>
         </div>
     );

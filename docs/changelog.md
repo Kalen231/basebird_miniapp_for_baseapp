@@ -110,5 +110,7 @@
 - **Fix**: This resolves the "Unable to delete row" error when removing a user, ensuring all related data is automatically cleaned up.
 
 ## [2026-01-17] Polish - Play Again Button
-- **UI**: Redesigned the "Play Again" button in the Game Over menu to be a circular, centered icon button.
-- **UX**: Completely reordered the Game Over menu layout: Action buttons are now at the TOP to prevent accidental clicks on the bottom (where flight tap happens), while Score and "Game Over" title are moved to the BOTTOM/Middle.
+- **UI**: Completely redesigned the Game Over screen for a cleaner, more focused experience.
+- **Simplified**: Removed all extra buttons (Shop, Share, Leaderboard) - only "Play Again" and "Back to Menu" remain.
+- **Layout**: Centered "GAME OVER" title (large), score below it, and action buttons at the bottom. Clean, minimal design.
+
