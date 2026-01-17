@@ -75,7 +75,7 @@
 
 ## [2026-01-17] Farcaster Mini App Loading Fixes
 - **Critical Fix**: Updated Providers.tsx to remove aggressive iframe detection that was blocking sdk.actions.ready() in some environments. Added robust fallback timeout to ensure app always initializes.
-- **Environment**: Updated src/app/layout.tsx to dynamically use NEXT_PUBLIC_URL for the embed URL, ensuring Vercel deployments point to the correct domain instead of hardcoded asebird.space.
+- **Environment**: Updated src/app/layout.tsx to dynamically use NEXT_PUBLIC_URL for the embed URL, ensuring Vercel deployments point to the correct domain instead of hardcoded  asebird.space.
 - **Stability**: These changes resolve the 'Ready not called' error and splash screen hang issues reported by the user.
 
 ## [2026-01-17] Visual Redesign - "Neon Datastream" Theme
@@ -91,3 +91,7 @@
 - **UI**: Updated `MainMenu` to disable the "Play" button and show "LOADING..." until user data (birds) is fully loaded.
 - **Fix**: Prevents the "You need a bird!" modal from appearing incorrectly when reloading the game, ensuring users can only play after their inventory is verified.
 
+## [2026-01-17] Recast Achievement & Share Logic
+- **Achievements**: Added "Share" button logic to `AchievementsModal` for the "Recast" achievement.
+- **Verification**: Implemented `sdk.actions.composeCast` integration to open Farcaster composer and detect successful casting for immediate achievement unlocking.
+- **UX**: User can now share the game and instantly unlock/mint the achievement without leaving the flow (or with minimal friction).

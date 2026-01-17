@@ -6,6 +6,7 @@ import { useSendTransaction } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { parseEther } from 'viem';
 import { useMutation } from '@tanstack/react-query';
+import { sdk } from "@farcaster/miniapp-sdk";
 import { useFarcasterContext } from '@/components/Providers';
 import { config } from '@/config/wagmi';
 import { ACHIEVEMENTS, Achievement } from '@/config/achievements';
@@ -30,13 +31,15 @@ export default function AchievementsModal({
     isOpen,
     onClose,
     userAchievements,
-    onMintSuccess
-}: AchievementsModalProps) {
+    onMintSuccess,
+    onUnlockAchievement
+}: AchievementsModalProps & { onUnlockAchievement: (id: string) => void }) {
     const { sendTransactionAsync } = useSendTransaction();
     const { fid } = useFarcasterContext();
     const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET;
 
     const [mintingId, setMintingId] = useState<string | null>(null);
+    const [sharingId, setSharingId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const mintMutation = useMutation({
@@ -90,6 +93,36 @@ export default function AchievementsModal({
         }
     });
 
+    const handleShare = async (achievementId: string) => {
+        setSharingId(achievementId);
+        const baseUrl = process.env.NEXT_PUBLIC_URL || "https://basebird.space";
+        const text = "Check out Base Bird! 🦅";
+
+        try {
+            // Attempt to use composeCast for better verification
+            const result = await sdk.actions.composeCast({
+                text,
+                embeds: [baseUrl]
+            });
+
+            if (result?.cast) {
+                // Instant verification if composeCast succeeds
+                onUnlockAchievement(achievementId);
+            }
+        } catch (err) {
+            console.error("Compose cast failed, falling back to openUrl", err);
+            const url = `https://warpcast.com/~/compose?text=${encodeURIComponent(text)}&embeds[]=${baseUrl}`;
+            sdk.actions.openUrl(url);
+
+            // Optimistic unlock after delay since we can't verify openUrl
+            setTimeout(() => {
+                onUnlockAchievement(achievementId);
+            }, 3000);
+        } finally {
+            setSharingId(null);
+        }
+    };
+
     if (!isOpen) return null;
 
     const getAchievementStatus = (achievement: Achievement): 'locked' | 'unlocked' | 'minted' => {
@@ -130,6 +163,7 @@ export default function AchievementsModal({
                     {ACHIEVEMENTS.map((achievement) => {
                         const status = getAchievementStatus(achievement);
                         const isMinting = mintingId === achievement.id;
+                        const isSharing = sharingId === achievement.id;
 
                         return (
                             <div
@@ -169,6 +203,19 @@ export default function AchievementsModal({
                                             className="px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white font-bold font-mono text-xs border-2 border-green-400 active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             {isMinting ? 'MINTING...' : 'MINT'}
+                                        </button>
+                                    ) : achievement.unlockCondition === 'recast' ? (
+                                        <button
+                                            onClick={() => handleShare(achievement.id)}
+                                            disabled={isSharing}
+                                            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white font-bold font-mono text-xs border-2 border-blue-400 active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                                        >
+                                            {isSharing ? '...' : (
+                                                <>
+                                                    <span>SHARE</span>
+                                                    <span>🔄</span>
+                                                </>
+                                            )}
                                         </button>
                                     ) : (
                                         <span className="text-gray-500 font-mono text-xs">

@@ -200,6 +200,7 @@ export default function Home() {
                 onClose={() => setIsAchievementsOpen(false)}
                 userAchievements={userAchievements}
                 onMintSuccess={handleAchievementMintSuccess}
+                onUnlockAchievement={unlockAchievement}
             />
 
             <NoBirdWarning
