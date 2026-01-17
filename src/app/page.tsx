@@ -9,6 +9,7 @@ import GameOverMenu from "@/components/Menu/GameOverMenu";
 import InventoryModal from "@/components/Menu/InventoryModal";
 import LeaderboardModal from "@/components/Menu/LeaderboardModal";
 import AchievementsModal from "@/components/Menu/AchievementsModal";
+import StreakModal from "@/components/Streak/StreakModal";
 import NoBirdWarning from "@/components/Menu/NoBirdWarning";
 import { sdk } from "@farcaster/miniapp-sdk";
 import { useGameData } from "@/hooks/useGameData";
@@ -42,6 +43,7 @@ export default function Home() {
     const [isInventoryOpen, setIsInventoryOpen] = useState(false);
     const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
     const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
+    const [isStreakOpen, setIsStreakOpen] = useState(false);
     const [isNoBirdWarningOpen, setIsNoBirdWarningOpen] = useState(false);
 
     // Skins State
@@ -135,6 +137,7 @@ export default function Home() {
                     onOpenInventory={() => setIsInventoryOpen(true)}
                     onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
                     onOpenAchievements={() => setIsAchievementsOpen(true)}
+                    onOpenStreak={() => setIsStreakOpen(true)}
                     playerName={displayName}
                     highScore={highScore}
                     isLoading={isLoading || !hasInitialized || isSyncing}
@@ -201,6 +204,11 @@ export default function Home() {
                 userAchievements={userAchievements}
                 onMintSuccess={handleAchievementMintSuccess}
                 onUnlockAchievement={unlockAchievement}
+            />
+
+            <StreakModal
+                isOpen={isStreakOpen}
+                onClose={() => setIsStreakOpen(false)}
             />
 
             <NoBirdWarning

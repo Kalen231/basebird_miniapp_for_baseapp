@@ -8,6 +8,7 @@ interface MainMenuProps {
     onOpenInventory: () => void;
     onOpenLeaderboard: () => void;
     onOpenAchievements: () => void;
+    onOpenStreak: () => void;
     playerName?: string;
     highScore?: number;
     isLoading?: boolean;
@@ -19,6 +20,7 @@ export default function MainMenu({
     onOpenInventory,
     onOpenLeaderboard,
     onOpenAchievements,
+    onOpenStreak,
     playerName,
     highScore = 0,
     isLoading = false
@@ -69,14 +71,20 @@ export default function MainMenu({
                     </div>
                 )}
 
-                {/* Menu Buttons */}
-                <div className="flex flex-col gap-4 w-full max-w-[280px]">
+                <div className="flex flex-col gap-3 w-full max-w-[280px]">
                     <button
                         onClick={onPlay}
                         disabled={isLoading}
                         className={`menu-btn menu-btn-primary animate-pulse-glow animate-float ${isLoading ? 'opacity-50 cursor-not-allowed grayscale' : ''}`}
                     >
                         {isLoading ? '⏳ LOADING...' : '▶ PLAY'}
+                    </button>
+
+                    <button
+                        onClick={onOpenStreak}
+                        className="menu-btn bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 border-2 border-orange-400 text-white font-bold font-mono text-base py-3 shadow-[0_0_15px_rgba(249,115,22,0.4)]"
+                    >
+                        🔥 REWARD STREAK
                     </button>
 
                     <div className="flex gap-3">
@@ -94,19 +102,21 @@ export default function MainMenu({
                         </button>
                     </div>
 
-                    <button
-                        onClick={onOpenAchievements}
-                        className="menu-btn menu-btn-yellow text-base py-3"
-                    >
-                        🏅 ACHIEVEMENTS
-                    </button>
+                    <div className="flex gap-3">
+                        <button
+                            onClick={onOpenAchievements}
+                            className="menu-btn menu-btn-yellow flex-1 text-base py-3 px-2 text-sm"
+                        >
+                            🏅 ACHV
+                        </button>
 
-                    <button
-                        onClick={onOpenLeaderboard}
-                        className="menu-btn menu-btn-blue text-base py-3"
-                    >
-                        🏆 LEADERBOARD
-                    </button>
+                        <button
+                            onClick={onOpenLeaderboard}
+                            className="menu-btn menu-btn-blue flex-1 text-base py-3 px-2 text-sm"
+                        >
+                            🏆 RANK
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
