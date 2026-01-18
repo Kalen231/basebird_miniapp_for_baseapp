@@ -138,6 +138,6 @@
 
 ## [2026-01-18] Base App Transaction Fix
 - **Wagmi**: Added `baseAccount` connector from `wagmi/connectors` to support Base App transactions alongside `farcasterMiniApp()`.
-- **Fallback**: Added hardcoded fallback for `NEXT_PUBLIC_ADMIN_WALLET` in `ShopModal.tsx` to prevent "Invalid recipient" errors.
-- **Debug**: Added console logging for admin wallet address to aid transaction debugging.
+- **Root Cause Fix**: Added `data` field with encoded `skuId` for mint transactions (value=0). Base App rejects empty transactions without data field.
+- **Fallback**: Added hardcoded fallback for `NEXT_PUBLIC_ADMIN_WALLET` in `ShopModal.tsx`.
 - **Files Changed**: `src/config/wagmi.ts`, `src/components/Shop/ShopModal.tsx`

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useSendTransaction } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { parseEther } from 'viem';
+import { parseEther, toHex } from 'viem';
 import { useMutation } from '@tanstack/react-query';
 import { useFarcasterContext } from '@/components/Providers';
 import { config } from '@/config/wagmi';
@@ -55,6 +55,8 @@ export default function ShopModal({
             const hash = await sendTransactionAsync({
                 to: adminWallet as `0x${string}`,
                 value: transactionValue,
+                // Base App requires data field for zero-value transactions
+                data: isMintable ? toHex(`mint:${skuId}`) : undefined,
             });
 
             // 2. Wait for confirmation
