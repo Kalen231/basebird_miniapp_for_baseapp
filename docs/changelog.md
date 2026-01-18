@@ -149,3 +149,11 @@
 
 ## [2026-01-18] Base App ID Update
 - **Config**: Updated `base:app_id` metadata in `src/app/layout.tsx` to `696cee36c0ab25addaaaf42d` as per new domain registration.
+
+## [2026-01-18] Base App Manifest Complete Overhaul
+- **Structure**: Fixed manifest structure - moved all fields inside `miniapp` object per Base App spec.
+- **Removed**: Deprecated `frame` object replaced with correct `miniapp` object.
+- **Added**: All required Base App fields: `subtitle`, `description`, `primaryCategory`, `tags`, `tagline`, `ogTitle`, `ogDescription`.
+- **Sync**: Updated both `public/.well-known/farcaster.json` (static) and `src/app/.well-known/farcaster.json/route.ts` (dynamic API) to match.
+- **Domain**: Configured for `www.base-bird.xyz` domain.
+- **Pending**: Signature must be regenerated via https://www.base.dev/preview?tab=account with the new domain.

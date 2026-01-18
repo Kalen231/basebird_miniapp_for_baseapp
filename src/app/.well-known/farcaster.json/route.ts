@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-    // 1. Get host from request headers or env
+    // Get host from request headers or env
     const host = request.headers.get('host');
     const protocol = host?.includes('localhost') ? 'http' : 'https';
 
@@ -12,40 +12,41 @@ export async function GET(request: NextRequest) {
 
     const config = {
         accountAssociation: {
-            header: "eyJmaWQiOjg0MDgwNywidHlwZSI6ImF1dGgiLCJrZXkiOiIweGY4ZDJiMjYwRjBjOTFlZjgwNjU5YWNGQUFBOGE4NjhDMzRkZDRkNzEifQ",
-            payload: "eyJkb21haW4iOiJiYXNlYmlyZC5zcGFjZSJ9",
-            signature: "LlNeC3G+mmkBwzDkuO7KwpOUUdCyZFp2J90fp36g7jJxiPWutCw2Nx8SMhEQDYy9Q5o80+F2C7ZBeN2Nq/cLoRw="
+            // Domain: www.base-bird.xyz
+            // These values must be regenerated via https://www.base.dev/preview?tab=account
+            header: "eyJmaWQiOjMwOTg1NywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDcxNzI3ZGUyMmU1ZTlkOGJhZjBlZGFjNmYzN2RhMDMyIn0",
+            payload: "eyJkb21haW4iOiJ3d3cuYmFzZS1iaXJkLnh5eiJ9",
+            signature: "" // IMPORTANT: Generate new signature at https://www.base.dev/preview?tab=account
         },
         miniapp: {
             version: "1",
-            name: "BaseBird",
-            iconUrl: `${appUrl}/icon_new.png`,
+            name: "Base Bird",
             homeUrl: appUrl,
-            imageUrl: `${appUrl}/hero_new.png`,
-            buttonTitle: "Play BaseBird",
+            iconUrl: `${appUrl}/icon_new.png`,
             splashImageUrl: `${appUrl}/splash_new.png`,
             splashBackgroundColor: "#0A0B14",
-            // Extended Metadata
-            subtitle: "Flappy Bird on Base",
-            description: "Fly through pipes, earn rewards, and compete on global leaderboards in this on-chain adaptation of the classic game. Built on Base with Farcaster integration.",
-            primaryCategory: "games",
-            tags: ["game", "casual", "skill", "base", "bird"],
-            tagline: "Fly. Survive. Earn.",
-            // Visual Assets
-            heroImageUrl: `${appUrl}/hero_new.png`,
+            subtitle: "Flap to earn on Base",
+            description: "Base Bird is a crypto-themed Flappy Bird game built on the Base blockchain. Collect unique bird skins as NFTs, compete on the leaderboard, and earn achievements. Play, mint, and soar through the neon datastream!",
             screenshotUrls: [
                 `${appUrl}/screenshot_gameplay.png`,
                 `${appUrl}/screenshot_gameover.png`,
                 `${appUrl}/screenshot_shop.png`
             ],
-            // Open Graph Sharing
-            ogTitle: "BaseBird - Flappy Bird on Base",
-            ogDescription: "Play BaseBird, the on-chain Flappy Bird game on Base. Compete for high scores and rewards!",
+            primaryCategory: "games",
+            tags: ["games", "nft", "base", "flappy", "crypto"],
+            heroImageUrl: `${appUrl}/hero_new.png`,
+            tagline: "Fly through the blockchain",
+            ogTitle: "Base Bird - Flap to Earn on Base",
+            ogDescription: "Crypto Flappy Bird game on Base. Mint unique bird skins, compete on the leaderboard, and unlock achievements!",
             ogImageUrl: `${appUrl}/hero_new.png`,
-
             webhookUrl: `${appUrl}/api/webhook`
         }
     };
 
-    return NextResponse.json(config);
+    return NextResponse.json(config, {
+        headers: {
+            'Cache-Control': 'no-store, max-age=0',
+            'Access-Control-Allow-Origin': '*'
+        }
+    });
 }
