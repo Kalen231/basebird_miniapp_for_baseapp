@@ -3,12 +3,17 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
     // Get host from request headers or env
     const host = request.headers.get('host');
-    const protocol = host?.includes('localhost') ? 'http' : 'https';
+    const isLocalhost = host?.includes('localhost');
 
     // URL Resolution priorities:
     // 1. NEXT_PUBLIC_URL (set manually in Vercel or .env)
     // 2. Fallback to current host
-    const appUrl = process.env.NEXT_PUBLIC_URL || `${protocol}://${host}`;
+    let appUrl = process.env.NEXT_PUBLIC_URL || host || 'www.base-bird.xyz';
+
+    // Ensure URL has proper protocol
+    if (!appUrl.startsWith('http://') && !appUrl.startsWith('https://')) {
+        appUrl = isLocalhost ? `http://${appUrl}` : `https://${appUrl}`;
+    }
 
     const config = {
         accountAssociation: {
