@@ -135,5 +135,10 @@
 - **Docs**: Populated `docs/API_SDK_BASE_APP.txt` with compatibility guide and technical details.
 - **Providers**: Added `isBaseApp` detection logic to identify Base App environment (Client ID 309857).
 - **Transactions**: Implemented `wallet_sendCalls` (EIP-5792) in `ShopModal.tsx` and `AchievementsModal.tsx` strictly for Base App users to ensure transaction reliability and Smart Wallet compatibility.
+- **Verification (CRITICAL)**: Implemented advanced server-side transaction verification for **Smart Wallets (ERC-4337)**. Added support for **EntryPoint v0.6/v0.7** and self-proxy calls, resolving the "Invalid recipient" issue in Base App.
 - **Manifest**: Made all manifest URLs dynamic (relative to host or `NEXT_PUBLIC_URL`) to fix "Manifest not found" errors on Vercel preview environments.
-- **Lint**: Fixed type issues in `ShopModal` related to hook parameters.
+- **Lint**: Fixed type issues in `ShopModal` related to hook parameters and removed unused imports to ensure successful Vercel builds.
+
+## [2026-01-18] Domain Update
+- **Config**: Updated `NEXT_PUBLIC_URL` and hardcoded fallbacks to use the new domain `base-bird.xyz` instead of `basebird.space`.
+- **Reason**: Official domain migration for production environment.
