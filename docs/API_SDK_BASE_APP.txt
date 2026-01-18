@@ -1,0 +1,22 @@
+Adaptation guide for Base App.
+
+### Core Concepts
+- **Metadata**: Add `base:app_id` to layout.
+- **Detection**: Use `ctx.client.clientFid === 309857` to identify Base App.
+- **Transactions**: Use `wallet_sendCalls` (EIP-5792) instead of `eth_sendTransaction` for Smart Wallet compatibility.
+
+### Smart Wallet Transaction Verification (ERC-4337)
+When using Base App's Smart Wallet, the top-level `to` address in the transaction receipt will often NOT be your admin wallet. It will be one of the EntryPoint contracts or the User's Proxy Wallet.
+
+**Allowed Recipients in Verification API:**
+1. **Your Admin Wallet**: Standard EOA direct transfers.
+2. **EntryPoint v0.6**: `0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789` (Legacy Smart Wallet protocol).
+3. **EntryPoint v0.7**: `0x0000000071727de22e5e9d8baf0edac6f37da032` (Modern Smart Wallet protocol).
+4. **Self-calls**: Where `to === from`, typical for proxy-based executions.
+
+This approach allows the app to support both Farcaster (Standard Wallets) and Base App (Smart Wallets) simultaneously.
+
+### Vercel Deployment & Manifest
+To support multiple environments (preview, production), all URLs in `farcaster.json` and meta-tags are dynamic.
+- Uses `NEXT_PUBLIC_URL` environment variable if present.
+- Falls back to automatic host detection in `route.ts`.

@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Menu Animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(0, 212, 255, 0.5), 0 0 10px rgba(0, 212, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 30px rgba(0, 212, 255, 0.5);
+    }
+}
+
+@keyframes title-glow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 20px rgba(0, 82, 255, 0.5);
+    }
+
+    50% {
+        text-shadow: 0 0 20px rgba(0, 212, 255, 1), 0 0 40px rgba(0, 82, 255, 0.8);
+    }
+}
+
+@keyframes cloud-move {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes score-pop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bird-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-title-glow {
+    animation: title-glow 2s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-score-pop {
+    animation: score-pop 0.5s ease-out forwards;
+}
+
+.animate-bird-bounce {
+    animation: bird-bounce 1.5s ease-in-out infinite;
+}
+
+/* Cloud animation classes */
+.cloud {
+    animation: cloud-move linear infinite;
+}
+
+.cloud-1 {
+    animation-duration: 20s;
+}
+
+.cloud-2 {
+    animation-duration: 25s;
+    animation-delay: -5s;
+}
+
+.cloud-3 {
+    animation-duration: 30s;
+    animation-delay: -10s;
+}
+
+/* Button styles - using raw CSS instead of @apply for complex shadow values */
+.menu-btn {
+    position: relative;
+    padding: 1rem 1.5rem;
+    font-weight: 700;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 2px solid transparent;
+    /* default */
+    border-radius: 0.75rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+}
+
+.menu-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.menu-btn:hover::before {
+    left: 100%;
+}
+
+.menu-btn:active {
+    transform: scale(0.98);
+}
+
+.menu-btn-primary {
+    background: rgba(0, 82, 255, 0.2);
+    color: #00D4FF;
+    border-color: #00D4FF;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.menu-btn-primary:hover {
+    background: rgba(0, 82, 255, 0.4);
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.6);
+    color: #ffffff;
+}
+
+.menu-btn-secondary {
+    background: rgba(30, 41, 59, 0.6);
+    color: #94A3B8;
+    border-color: #475569;
+}
+
+.menu-btn-secondary:hover {
+    background: rgba(30, 41, 59, 0.8);
+    color: white;
+    border-color: #94A3B8;
+}
+
+.menu-btn-purple {
+    background: rgba(147, 51, 234, 0.15);
+    color: #C084FC;
+    border-color: #A855F7;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+.menu-btn-purple:hover {
+    background: rgba(147, 51, 234, 0.3);
+    color: white;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.menu-btn-blue {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60A5FA;
+    border-color: #3B82F6;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.menu-btn-blue:hover {
+    background: rgba(59, 130, 246, 0.3);
+    color: white;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.menu-btn-yellow {
+    background: rgba(234, 179, 8, 0.15);
+    color: #FACC15;
+    border-color: #EAB308;
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.2);
+}
+
+.menu-btn-yellow:hover {
+    background: rgba(234, 179, 8, 0.3);
+    color: white;
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.5);
+}
