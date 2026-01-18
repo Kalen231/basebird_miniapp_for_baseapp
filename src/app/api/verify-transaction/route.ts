@@ -50,9 +50,10 @@ export async function POST(req: NextRequest) {
         // Standard EOA Check
         const isStandardDirect = to === adminWallet;
 
-        // Smart Wallet Check (EIP-4337 EntryPoint)
-        const ENTRY_POINT = "0x0000000071727de22e5e9d8baf0edac6f37da032";
-        const isSmartWalletEntryPoint = to === ENTRY_POINT;
+        // Smart Wallet Check (EIP-4337 EntryPoints)
+        const ENTRY_POINT_V6 = "0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789";
+        const ENTRY_POINT_V7 = "0x0000000071727de22e5e9d8baf0edac6f37da032";
+        const isSmartWalletEntryPoint = to === ENTRY_POINT_V6 || to === ENTRY_POINT_V7;
 
         // Smart Wallet Check (Self-call / Proxy execution)
         // For some wallets, the 'to' is the wallet contract itself (same as from, or a related proxy)
@@ -61,7 +62,7 @@ export async function POST(req: NextRequest) {
         if (!isStandardDirect && !isSmartWalletEntryPoint && !isSmartWalletDirect) {
             console.warn(`[Verify] Recipient mismatch. Expected ${adminWallet}, got ${to}`);
             return NextResponse.json(
-                { error: "Invalid recipient" },
+                { error: `Invalid recipient: observed ${to}. Expected admin wallet or EntryPoint.` },
                 { status: 400 }
             );
         }
