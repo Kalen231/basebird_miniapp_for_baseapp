@@ -142,3 +142,7 @@
 ## [2026-01-18] Domain Update
 - **Config**: Updated `NEXT_PUBLIC_URL` and hardcoded fallbacks to use the new domain `base-bird.xyz` instead of `basebird.space`.
 - **Reason**: Official domain migration for production environment.
+
+## [2026-01-18] Domain & Metadata Correction
+- **Domain**: Updated default app URL to `https://www.base-bird.xyz` (added `www`).
+- **Metadata**: Created `public/.well-known/farcaster.json` with strict Base App metadata fields (icon, home, splash, hero, screenshots, etc.) to ensure discoverability and pass validation.

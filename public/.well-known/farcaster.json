@@ -1,0 +1,29 @@
+{
+    "accountAssociation": {
+        "header": "eyJmaWQiOjMwOTg1NywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDcxNzI3ZGUyMmU1ZTlkOGJhZjBlZGFjNmYzN2RhMDMyIn0",
+        "payload": "eyJkb21haW4iOiJ3d3cuYmFzZS1iaXJkLnh5eiJ9",
+        "signature": ""
+    },
+    "frame": {
+        "version": "1",
+        "name": "Base Bird",
+        "iconUrl": "https://www.base-bird.xyz/icon_new.png",
+        "homeUrl": "https://www.base-bird.xyz",
+        "imageUrl": "https://www.base-bird.xyz/hero_new.png",
+        "buttonTitle": "Play",
+        "splashImageUrl": "https://www.base-bird.xyz/splash_new.png",
+        "splashBackgroundColor": "#000000",
+        "webhookUrl": "https://www.base-bird.xyz/api/webhook"
+    },
+    "iconUrl": "https://www.base-bird.xyz/icon_new.png",
+    "homeUrl": "https://www.base-bird.xyz",
+    "splashImageUrl": "https://www.base-bird.xyz/splash_new.png",
+    "webhookUrl": "https://www.base-bird.xyz/api/webhook",
+    "screenshotUrls": [
+        "https://www.base-bird.xyz/screenshot_gameplay.png",
+        "https://www.base-bird.xyz/screenshot_gameover.png",
+        "https://www.base-bird.xyz/screenshot_shop.png"
+    ],
+    "heroImageUrl": "https://www.base-bird.xyz/hero_new.png",
+    "ogImageUrl": "https://www.base-bird.xyz/hero_new.png"
+}
