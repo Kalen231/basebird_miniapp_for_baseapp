@@ -17,11 +17,9 @@ export async function GET(request: NextRequest) {
 
     const config = {
         accountAssociation: {
-            // Domain: www.base-bird.xyz
-            // These values must be regenerated via https://www.base.dev/preview?tab=account
-            header: "eyJmaWQiOjMwOTg1NywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDcxNzI3ZGUyMmU1ZTlkOGJhZjBlZGFjNmYzN2RhMDMyIn0",
-            payload: "eyJkb21haW4iOiJ3d3cuYmFzZS1iaXJkLnh5eiJ9",
-            signature: "" // IMPORTANT: Generate new signature at https://www.base.dev/preview?tab=account
+            "header": "eyJmaWQiOjE4ODc2ODcsInR5cGUiOiJhdXRoIiwia2V5IjoiMHgzMUI0NmU3ODdiM2UxYUE0Mjg2MjQyMTI5RmYwOTE4MjdjN2RDYmRiIn0",
+            "payload": "eyJkb21haW4iOiJ3d3cuYmFzZS1iaXJkLnh5eiJ9",
+            "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEGIfA88gDVvciIyiCs5X3rzy5VucsT_-8KFGQ2eI_XjkDVdbF0eW6OGUIPeWvMvPoc0nIjBibEehY5OHmnK05b7GwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         miniapp: {
             version: "1",

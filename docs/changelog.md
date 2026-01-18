@@ -156,4 +156,5 @@
 - **Added**: All required Base App fields: `subtitle`, `description`, `primaryCategory`, `tags`, `tagline`, `ogTitle`, `ogDescription`.
 - **Sync**: Updated both `public/.well-known/farcaster.json` (static) and `src/app/.well-known/farcaster.json/route.ts` (dynamic API) to match.
 - **Domain**: Configured for `www.base-bird.xyz` domain.
-- **Pending**: Signature must be regenerated via https://www.base.dev/preview?tab=account with the new domain.
+- **Verified**: Domain `www.base-bird.xyz` successfully verified and signed via Base Account Association Tool.
+- **Protocol**: Enforced `https://` protocol in manifest URLs to prevent mixed content issues.
