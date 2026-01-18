@@ -146,3 +146,6 @@
 ## [2026-01-18] Domain & Metadata Correction
 - **Domain**: Updated default app URL to `https://www.base-bird.xyz` (added `www`).
 - **Metadata**: Created `public/.well-known/farcaster.json` with strict Base App metadata fields (icon, home, splash, hero, screenshots, etc.) to ensure discoverability and pass validation.
+
+## [2026-01-18] Base App ID Update
+- **Config**: Updated `base:app_id` metadata in `src/app/layout.tsx` to `696cee36c0ab25addaaaf42d` as per new domain registration.
