@@ -137,7 +137,7 @@
 - **Ready**: All requirements for Base App publishing complete (SDK, manifest, accountAssociation, assets).
 
 ## [2026-01-18] Base App Transaction Fix
-- **Wagmi**: Added `baseAccount` connector from `wagmi/connectors` to support Base App transactions alongside `farcasterMiniApp()`.
-- **Root Cause Fix**: Added `data` field with encoded `skuId` for mint transactions (value=0). Base App rejects empty transactions without data field.
-- **Fallback**: Added hardcoded fallback for `NEXT_PUBLIC_ADMIN_WALLET` in `ShopModal.tsx`.
-- **Files Changed**: `src/config/wagmi.ts`, `src/components/Shop/ShopModal.tsx`
+- **Root Cause**: Base App uses `wallet_sendCalls` (EIP-5792), not `eth_sendTransaction`.
+- **Fix**: Replaced `useSendTransaction` with `useSendCalls` from `wagmi/experimental` in `ShopModal.tsx`.
+- **Compatibility**: EIP-5792 is supported by both Farcaster and Base App.
+- **Files Changed**: `src/components/Shop/ShopModal.tsx`
