@@ -136,3 +136,8 @@
 - **Fix**: Changed `fc:miniapp` action type from `launch_frame` to `launch_miniapp` per Base documentation.
 - **Ready**: All requirements for Base App publishing complete (SDK, manifest, accountAssociation, assets).
 
+## [2026-01-18] Base App Transaction Fix
+- **Wagmi**: Added `baseAccount` connector from `wagmi/connectors` to support Base App transactions alongside `farcasterMiniApp()`.
+- **Fallback**: Added hardcoded fallback for `NEXT_PUBLIC_ADMIN_WALLET` in `ShopModal.tsx` to prevent "Invalid recipient" errors.
+- **Debug**: Added console logging for admin wallet address to aid transaction debugging.
+- **Files Changed**: `src/config/wagmi.ts`, `src/components/Shop/ShopModal.tsx`

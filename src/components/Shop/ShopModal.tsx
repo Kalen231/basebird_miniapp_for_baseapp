@@ -29,7 +29,8 @@ export default function ShopModal({
 }: ShopModalProps) {
     const { sendTransactionAsync } = useSendTransaction();
     const { fid } = useFarcasterContext();
-    const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET;
+    const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET || '0xf8d2b260F0c91ef80659acFAAA8a868C34dd4d71';
+    console.log('[ShopModal] Admin wallet:', adminWallet);
 
     const [buyingSkuId, setBuyingSkuId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
