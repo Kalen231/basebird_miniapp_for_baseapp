@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSendTransaction } from 'wagmi';
 import { useSendCalls, useCallsStatus } from 'wagmi/experimental';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { parseEther, toHex } from 'viem';
+import { parseEther } from 'viem';
 import { useMutation } from '@tanstack/react-query';
 import { useFarcasterContext } from '@/components/Providers';
 import { config } from '@/config/wagmi';

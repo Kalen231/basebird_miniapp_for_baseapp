@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { useSendTransaction } from 'wagmi';
 import { useSendCalls, useCallsStatus } from 'wagmi/experimental';
 import { waitForTransactionReceipt } from 'wagmi/actions';
@@ -11,15 +10,7 @@ import { sdk } from "@farcaster/miniapp-sdk";
 import { useFarcasterContext } from '@/components/Providers';
 import { config } from '@/config/wagmi';
 import { ACHIEVEMENTS, Achievement } from '@/config/achievements';
-
-interface UserAchievement {
-    id: string;
-    fid: number;
-    achievement_id: string;
-    unlocked_at: string;
-    minted: boolean;
-    mint_tx_hash: string | null;
-}
+import { UserAchievement } from '@/types/user';
 
 interface AchievementsModalProps {
     isOpen: boolean;

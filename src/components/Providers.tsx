@@ -9,9 +9,6 @@ import { WagmiConnectionManager } from './WagmiConnectionManager';
 
 const queryClient = new QueryClient();
 
-// Timeout for SDK context (ms) - short timeout, context is non-blocking
-const SDK_CONTEXT_TIMEOUT_MS = 1000;
-
 interface FarcasterContextType {
     fid?: number;
     displayName?: string;
