@@ -166,3 +166,10 @@
 - **accountAssociation**: Updated with new signature for `base-bird.xyz` domain verification.
 - **Structure**: Now only ONE manifest source exists (dynamic route), ensuring consistency across all environments.
 - **Build**: Verified production build success.
+
+## [2026-01-18] Manifest Character Limits Fix
+- **Validation**: Fixed Base App preview validation errors for text fields.
+- **description**: Shortened from 218 to 143 characters (max 170).
+- **ogTitle**: Shortened from 33 to 24 characters (max 30).
+- **ogDescription**: Shortened from 110 to 90 characters (max 100).
+- **Build**: Verified production build success.

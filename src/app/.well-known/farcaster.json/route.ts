@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
             splashImageUrl: `${appUrl}/splash_new.png`,
             splashBackgroundColor: "#0A0B14",
             subtitle: "Flap to earn on Base",
-            description: "Base Bird is a crypto-themed Flappy Bird game built on the Base blockchain. Collect unique bird skins as NFTs, compete on the leaderboard, and earn achievements. Play, mint, and soar through the neon datastream!",
+            description: "Crypto Flappy Bird on Base blockchain. Collect bird skins as NFTs, compete on leaderboards, earn achievements. Fly through the neon datastream!",
             screenshotUrls: [
                 `${appUrl}/screenshot_gameplay.png`,
                 `${appUrl}/screenshot_gameover.png`,
@@ -39,8 +39,8 @@ export async function GET(request: NextRequest) {
             tags: ["games", "nft", "base", "flappy", "crypto"],
             heroImageUrl: `${appUrl}/hero_new.png`,
             tagline: "Fly through the blockchain",
-            ogTitle: "Base Bird - Flap to Earn on Base",
-            ogDescription: "Crypto Flappy Bird game on Base. Mint unique bird skins, compete on the leaderboard, and unlock achievements!",
+            ogTitle: "Base Bird - Flap to Earn",
+            ogDescription: "Crypto Flappy Bird on Base. Mint bird skins, compete on leaderboards, unlock achievements!",
             ogImageUrl: `${appUrl}/hero_new.png`,
             webhookUrl: `${appUrl}/api/webhook`
         }
