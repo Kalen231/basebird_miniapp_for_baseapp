@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useSendTransaction } from 'wagmi';
+import { useSendCalls, useCallsStatus } from 'wagmi/experimental';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { parseEther } from 'viem';
 import { useMutation } from '@tanstack/react-query';
@@ -35,12 +36,74 @@ export default function AchievementsModal({
     onUnlockAchievement
 }: AchievementsModalProps & { onUnlockAchievement: (id: string) => void }) {
     const { sendTransactionAsync } = useSendTransaction();
-    const { fid } = useFarcasterContext();
+    const { sendCallsAsync } = useSendCalls();
+
+    const { fid, isBaseApp } = useFarcasterContext();
     const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET;
 
     const [mintingId, setMintingId] = useState<string | null>(null);
     const [sharingId, setSharingId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+
+    // Base App states
+    const [callId, setCallId] = useState<string | null>(null);
+    const [isVerifying, setIsVerifying] = useState(false);
+
+    // Watch Base App calls
+    const { data: callsStatus } = useCallsStatus({
+        id: callId || '',
+        query: {
+            enabled: !!callId,
+            refetchInterval: (data) => data.state.data?.status === 'CONFIRMED' ? false : 1000,
+        }
+    });
+
+    // Effect to handle Base App validation
+    useEffect(() => {
+        if (callId && callsStatus?.status === 'CONFIRMED' && mintingId && !isVerifying) {
+            console.log('✅ Base App Mint Call Confirmed:', callId);
+            verifyBaseAppMint(callId, mintingId);
+        }
+    }, [callId, callsStatus?.status, mintingId]);
+
+    const verifyBaseAppMint = async (id: string, achievementId: string) => {
+        setIsVerifying(true);
+        try {
+            const txHash = callsStatus?.receipts?.[0]?.transactionHash;
+
+            if (!txHash) {
+                console.warn("No hash found yet for mint call", id);
+                return;
+            }
+
+            const response = await fetch('/api/achievements/mint', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fid,
+                    achievementId,
+                    txHash
+                })
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || 'Mint failed');
+            }
+
+            // Success
+            onMintSuccess(achievementId);
+            setMintingId(null);
+            setCallId(null);
+        } catch (err: any) {
+            console.error("Mint verification error:", err);
+            setError(err.message);
+            setMintingId(null);
+            setCallId(null);
+        } finally {
+            setIsVerifying(false);
+        }
+    };
 
     const mintMutation = useMutation({
         mutationKey: ['mintAchievement'],
@@ -50,8 +113,24 @@ export default function AchievementsModal({
 
             setMintingId(achievementId);
             setError(null);
+            setCallId(null);
 
-            // Send minimal transaction (gas only)
+            // Base App Branch
+            if (isBaseApp) {
+                console.log('🔵 Using wallet_sendCalls for Achievement Mint');
+                const id = await sendCallsAsync({
+                    calls: [{
+                        to: adminWallet as `0x${string}`,
+                        value: parseEther('0'),
+                        data: '0x'
+                    }]
+                });
+                console.log('✅ Calls sent, ID:', id);
+                setCallId(id);
+                return { method: 'calls', id, achievementId };
+            }
+
+            // Standard Flow
             const hash = await sendTransactionAsync({
                 to: adminWallet as `0x${string}`,
                 value: parseEther('0'), // Only gas cost
@@ -76,11 +155,13 @@ export default function AchievementsModal({
                 throw new Error(err.error || 'Mint failed');
             }
 
-            return { hash, achievementId };
+            return { hash, method: 'legacy', achievementId };
         },
         onSuccess: (data) => {
-            onMintSuccess(data.achievementId);
-            setMintingId(null);
+            if (data.method === 'legacy') {
+                onMintSuccess(data.achievementId);
+                setMintingId(null);
+            }
         },
         onError: (err) => {
             // Check for user rejection
@@ -90,20 +171,18 @@ export default function AchievementsModal({
                 err.name === 'UserRejectedRequestError';
 
             if (isUserRejection) {
-                // User cancelled, just log info
                 console.log("Mint cancelled by user");
                 setMintingId(null);
+                setCallId(null);
                 return;
             }
 
             console.error("Mint error:", err);
-
-            if (err.message.includes("Connector not connected")) {
-                setError("Wallet disconnected. Please reload the frame.");
-            } else {
-                setError(err.message);
-            }
+            setError(err.message.includes("Connector not connected")
+                ? "Wallet disconnected. Please reload."
+                : err.message);
             setMintingId(null);
+            setCallId(null);
         }
     });
 
@@ -156,7 +235,9 @@ export default function AchievementsModal({
 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4 border-b-2 border-gray-600 pb-2">
-                    <h2 className="text-2xl font-bold font-mono text-yellow-400">🏅 ACHIEVEMENTS</h2>
+                    <h2 className="text-2xl font-bold font-mono text-yellow-400">
+                        {isBaseApp ? '🔵 ' : ''}🏅 ACHIEVEMENTS
+                    </h2>
                     <button
                         onClick={onClose}
                         className="text-gray-400 hover:text-white font-mono text-xl font-bold"
@@ -169,6 +250,13 @@ export default function AchievementsModal({
                 {error && (
                     <div className="mb-4 p-2 bg-red-900/50 border border-red-500 text-red-300 text-xs font-mono">
                         ❌ {error}
+                    </div>
+                )}
+
+                {/* Status for Base App */}
+                {callId && (
+                    <div className="mb-4 p-2 bg-blue-900/50 border border-blue-500 text-blue-300 text-xs font-mono animate-pulse">
+                        ⏳ Minting on Base App... {callsStatus?.status}
                     </div>
                 )}
 

@@ -1,0 +1,43 @@
+Base App Compatibility
+
+Base App is a social, onchain everything app that lets users discover Mini Apps and interact with smart agents.
+Documentation: https://docs.base.org/base-app/llms.txt
+Mini Apps Docs: https://docs.base.org/mini-apps/llms.txt
+
+COMPATIBILITY NOTES
+-------------------
+Base App supports the Farcaster Mini App SDK with some exceptions.
+
+Supported Features:
+- ready, close
+- composeCast
+- openUrl
+- signIn, quickAuth
+- viewProfile, viewCast
+- sendToken, swapToken, viewToken
+- requestCameraAndMicrophoneAccess
+- haptics
+
+Unsupported:
+- signManifest
+
+DETECTION
+---------
+To detect Base App environment:
+context.client.clientFid === 309857
+
+TRANSACTIONS
+------------
+Base App uses Smart Wallets (Coinbase Wallet).
+Recommended to use EIP-5792 `wallet_sendCalls` instead of `eth_sendTransaction`.
+This allows for batched transactions and better Paymaster support.
+Wagmi Hook: `useSendCalls` (from `wagmi/experimental`).
+
+METADATA
+--------
+Ensure `base:app_id` is set in the page metadata.
+Example:
+other: {
+  "base:app_id": "YOUR_APP_ID",
+  "fc:miniapp": ...
+}

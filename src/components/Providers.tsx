@@ -19,18 +19,21 @@ interface FarcasterContextType {
     isLoading: boolean;
     isSDKLoaded: boolean;
     isDevMode: boolean;
+    isBaseApp: boolean;
 }
 
 const FarcasterContext = createContext<FarcasterContextType>({
     isLoading: true,
     isSDKLoaded: false,
     isDevMode: false,
+    isBaseApp: false,
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const [isSDKLoaded, setIsSDKLoaded] = useState(false);
     const [context, setContext] = useState<any>(null);
     const [isDevMode, setIsDevMode] = useState(false);
+    const [isBaseApp, setIsBaseApp] = useState(false);
 
     useEffect(() => {
         // Fallback context for local development
@@ -67,8 +70,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
                 if (isMiniApp) {
                     const ctx = await sdk.context;
-                    console.log('✅ Farcaster context loaded');
+                    console.log('✅ Farcaster context loaded', ctx);
                     setContext(ctx);
+
+                    // Detect Base App (clientFid 309857)
+                    if (ctx?.client?.clientFid === 309857) {
+                        console.log('🔵 Running in Base App!');
+                        setIsBaseApp(true);
+                    }
                 } else {
                     console.log('🎮 Not in Mini App, using dev mode');
                     setIsDevMode(true);
@@ -91,6 +100,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         isLoading: !context,
         isSDKLoaded,
         isDevMode,
+        isBaseApp,
     };
 
     return (

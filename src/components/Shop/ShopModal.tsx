@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useSendTransaction } from 'wagmi';
+import { useSendCalls, useCallsStatus } from 'wagmi/experimental';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { parseEther, toHex } from 'viem';
 import { useMutation } from '@tanstack/react-query';
@@ -28,12 +29,79 @@ export default function ShopModal({
     onPurchaseSuccess
 }: ShopModalProps) {
     const { sendTransactionAsync } = useSendTransaction();
-    const { fid } = useFarcasterContext();
-    const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET || '0xf8d2b260F0c91ef80659acFAAA8a868C34dd4d71';
-    console.log('[ShopModal] Admin wallet:', adminWallet);
+    const { sendCallsAsync } = useSendCalls();
 
+    const { fid, isBaseApp } = useFarcasterContext();
+    const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET || '0xf8d2b260F0c91ef80659acFAAA8a868C34dd4d71';
+
+    // State for both flows
     const [buyingSkuId, setBuyingSkuId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [callId, setCallId] = useState<string | null>(null);
+    const [isVerifying, setIsVerifying] = useState(false);
+
+    // Watch Base App calls
+    const { data: callsStatus } = useCallsStatus({
+        id: callId || '',
+        query: {
+            enabled: !!callId,
+            refetchInterval: (data) => data.state.data?.status === 'CONFIRMED' ? false : 1000,
+        }
+    });
+
+    // Effect to handle Base App validation when call captures
+    useEffect(() => {
+        if (callId && callsStatus?.status === 'CONFIRMED' && buyingSkuId && !isVerifying) {
+            console.log('✅ Base App Call Confirmed:', callId);
+            verifyBaseAppPurchase(callId, buyingSkuId);
+        }
+    }, [callId, callsStatus?.status, buyingSkuId]);
+
+    const verifyBaseAppPurchase = async (id: string, skuId: string) => {
+        setIsVerifying(true);
+        try {
+            // For Smart Wallets, the Receipt might be different, but we send the call ID (or finding the hash)
+            // Our backend likely expects a hash. 
+            // callsStatus.receipts[0].transactionHash is what we need.
+            const txHash = callsStatus?.receipts?.[0]?.transactionHash;
+
+            if (!txHash) {
+                console.warn("No hash found yet for call", id);
+                return; // Wait for receipt
+            }
+
+            const skin = SKINS.find(s => s.skuId === skuId);
+            const isMintable = skin?.isMintable;
+
+            const response = await fetch('/api/verify-transaction', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fid,
+                    txHash,
+                    skuId,
+                    isMintable,
+                })
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || 'Verification failed');
+            }
+
+            // Success
+            onPurchaseSuccess(skuId);
+            setBuyingSkuId(null);
+            setCallId(null);
+        } catch (err: any) {
+            console.error("Verification error:", err);
+            setError(err.message);
+            setBuyingSkuId(null); // Stop Loading
+            setCallId(null);
+        } finally {
+            setIsVerifying(false);
+        }
+    };
 
     const purchaseMutation = useMutation({
         mutationKey: ['purchase'],
@@ -43,24 +111,35 @@ export default function ShopModal({
 
             setBuyingSkuId(skuId);
             setError(null);
+            setCallId(null);
 
-            // Ensure connected
-            // Note: In Farcaster, we expect auto-connect. If not connected, we should error or try to connect.
-            // But useSendTransaction usually throws if not connected.
+            const value = isMintable ? parseEther("0") : parseEther(priceInEth);
 
+            // BRANCH: Base App (sendCalls) vs Standard (sendTransaction)
+            if (isBaseApp) {
+                console.log('🔵 Using wallet_sendCalls for Base App');
+                const id = await sendCallsAsync({
+                    calls: [{
+                        to: adminWallet as `0x${string}`,
+                        value: value,
+                        data: '0x'
+                    }]
+                });
+                console.log('✅ Calls sent, ID:', id);
+                setCallId(id); // Triggers the Effect
+                return { method: 'calls', id, skuId };
+            }
 
-            // 1. Send Transaction
-            // For mintable birds (isMintable=true), send 0 ETH - user only pays gas
-            const transactionValue = isMintable ? parseEther("0") : parseEther(priceInEth);
+            // Standard Flow
+            console.log('🟠 Using eth_sendTransaction');
             const hash = await sendTransactionAsync({
                 to: adminWallet as `0x${string}`,
-                value: transactionValue,
+                value: value,
             });
 
-            // 2. Wait for confirmation
             await waitForTransactionReceipt(config, { hash });
 
-            // 3. Verify on backend
+            // Verify
             const response = await fetch('/api/verify-transaction', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -68,7 +147,7 @@ export default function ShopModal({
                     fid,
                     txHash: hash,
                     skuId,
-                    isMintable, // Pass mint flag to backend
+                    isMintable,
                 })
             });
 
@@ -77,11 +156,14 @@ export default function ShopModal({
                 throw new Error(err.error || 'Verification failed');
             }
 
-            return { hash, success: true, skuId };
+            return { hash, method: 'legacy', success: true, skuId };
         },
         onSuccess: (data) => {
-            onPurchaseSuccess(data.skuId);
-            setBuyingSkuId(null);
+            if (data.method === 'legacy') {
+                onPurchaseSuccess(data.skuId);
+                setBuyingSkuId(null);
+            }
+            // For 'calls', we stay in 'buying' state until the Effect helps us out
         },
         onError: (err) => {
             // Check for user rejection
@@ -91,20 +173,18 @@ export default function ShopModal({
                 err.name === 'UserRejectedRequestError';
 
             if (isUserRejection) {
-                // User cancelled, just log info
                 console.log("Purchase cancelled by user");
                 setBuyingSkuId(null);
+                setCallId(null);
                 return;
             }
 
             console.error("Purchase error:", err);
-
-            if (err.message.includes("Connector not connected")) {
-                setError("Wallet disconnected. Please reload the frame.");
-            } else {
-                setError(err.message);
-            }
+            setError(err.message.includes("Connector not connected")
+                ? "Wallet disconnected. Please reload."
+                : err.message);
             setBuyingSkuId(null);
+            setCallId(null);
         }
     });
 
@@ -120,6 +200,7 @@ export default function ShopModal({
 
     const isOwned = (sku: string) => ownedSkus.includes(sku);
     const isActive = (sku: string) => activeSkin === sku;
+    // Buying if Mutation Pending OR (we have a callID and verification is happening/pending)
     const isBuying = (sku: string) => buyingSkuId === sku;
 
     const formatPrice = (skin: Skin) => {
@@ -135,7 +216,9 @@ export default function ShopModal({
 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4 border-b-2 border-gray-600 pb-2">
-                    <h2 className="text-2xl font-bold font-mono text-yellow-400">🐦 BIRD SHOP</h2>
+                    <h2 className="text-2xl font-bold font-mono text-yellow-400">
+                        {isBaseApp ? '🔵 ' : ''}🐦 BIRD SHOP
+                    </h2>
                     <button
                         onClick={onClose}
                         className="text-gray-400 hover:text-white font-mono text-xl font-bold"
@@ -148,6 +231,13 @@ export default function ShopModal({
                 {error && (
                     <div className="mb-4 p-2 bg-red-900/50 border border-red-500 text-red-300 text-xs font-mono">
                         ❌ {error}
+                    </div>
+                )}
+
+                {/* Status for Base App */}
+                {callId && (
+                    <div className="mb-4 p-2 bg-blue-900/50 border border-blue-500 text-blue-300 text-xs font-mono animate-pulse">
+                        ⏳ Processing Transaction... {callsStatus?.status}
                     </div>
                 )}
 

@@ -131,13 +131,9 @@
 - **Fix 3**: Added aggressive cache-busting: `Cache-Control: no-store`, timestamp query params, `revalidate: 0`.
 - **Files Changed**: `sync/route.ts`, `leaderboard/route.ts`, `LeaderboardModal.tsx`
 
-## [2026-01-18] BaseApp Integration
-- **Metadata**: Added `base:app_id` to `src/app/layout.tsx` to enable BaseApp Mini App integration.
-- **Fix**: Changed `fc:miniapp` action type from `launch_frame` to `launch_miniapp` per Base documentation.
-- **Ready**: All requirements for Base App publishing complete (SDK, manifest, accountAssociation, assets).
-
-## [2026-01-18] Base App Transaction Fix
-- **Root Cause**: Base App uses `wallet_sendCalls` (EIP-5792), not `eth_sendTransaction`.
-- **Fix**: Replaced `useSendTransaction` with `useSendCalls` from `wagmi/experimental` in `ShopModal.tsx`.
-- **Compatibility**: EIP-5792 is supported by both Farcaster and Base App.
-- **Files Changed**: `src/components/Shop/ShopModal.tsx`
+## [2026-01-18] Base App Adaptation & Fixes
+- **Docs**: Populated `docs/API_SDK_BASE_APP.txt` with compatibility guide and technical details.
+- **Providers**: Added `isBaseApp` detection logic to identify Base App environment (Client ID 309857).
+- **Transactions**: Implemented `wallet_sendCalls` (EIP-5792) in `ShopModal.tsx` and `AchievementsModal.tsx` strictly for Base App users to ensure transaction reliability and Smart Wallet compatibility.
+- **Shop & Achievements**: Added transaction status monitoring for Base App flow (waiting for calls confirmation) alongside legacy support.
+- **Lint**: Fixed type issues in `ShopModal` related to hook parameters.
