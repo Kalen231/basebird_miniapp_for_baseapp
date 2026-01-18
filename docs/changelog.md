@@ -158,3 +158,11 @@
 - **Domain**: Configured for `www.base-bird.xyz` domain.
 - **Verified**: Domain `www.base-bird.xyz` successfully verified and signed via Base Account Association Tool.
 - **Protocol**: Enforced `https://` protocol in manifest URLs to prevent mixed content issues.
+
+## [2026-01-18] Manifest Consolidation & Domain Fix
+- **Critical Fix**: Removed duplicate `public/.well-known/farcaster.json` static file that was conflicting with dynamic API route `src/app/.well-known/farcaster.json/route.ts`.
+- **Root Cause**: Having both static file and dynamic route caused unpredictable behavior - Next.js sometimes served stale static file instead of dynamic route.
+- **Domain**: Changed primary domain from `www.base-bird.xyz` to `base-bird.xyz` (without www) to match new `accountAssociation` credentials.
+- **accountAssociation**: Updated with new signature for `base-bird.xyz` domain verification.
+- **Structure**: Now only ONE manifest source exists (dynamic route), ensuring consistency across all environments.
+- **Build**: Verified production build success.

@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     // URL Resolution priorities:
     // 1. NEXT_PUBLIC_URL (set manually in Vercel or .env)
     // 2. Fallback to current host
-    let appUrl = process.env.NEXT_PUBLIC_URL || host || 'www.base-bird.xyz';
+    let appUrl = process.env.NEXT_PUBLIC_URL || host || 'base-bird.xyz';
 
     // Ensure URL has proper protocol
     if (!appUrl.startsWith('http://') && !appUrl.startsWith('https://')) {
@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
     const config = {
         accountAssociation: {
             "header": "eyJmaWQiOjE4ODc2ODcsInR5cGUiOiJhdXRoIiwia2V5IjoiMHgzMUI0NmU3ODdiM2UxYUE0Mjg2MjQyMTI5RmYwOTE4MjdjN2RDYmRiIn0",
-            "payload": "eyJkb21haW4iOiJ3d3cuYmFzZS1iaXJkLnh5eiJ9",
-            "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEGIfA88gDVvciIyiCs5X3rzy5VucsT_-8KFGQ2eI_XjkDVdbF0eW6OGUIPeWvMvPoc0nIjBibEehY5OHmnK05b7GwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "payload": "eyJkb21haW4iOiJiYXNlLWJpcmQueHl6In0",
+            "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEFx_Ey6ZaS-ElPgV8VshM_FbcFD7c81OqmqSmdJB58dhiAzn74ELOoZF-3LI8pWWleczY8C28I_5spo8qh-2LMLHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         miniapp: {
             version: "1",
