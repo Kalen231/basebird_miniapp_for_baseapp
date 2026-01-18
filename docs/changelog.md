@@ -131,3 +131,6 @@
 - **Fix 3**: Added aggressive cache-busting: `Cache-Control: no-store`, timestamp query params, `revalidate: 0`.
 - **Files Changed**: `sync/route.ts`, `leaderboard/route.ts`, `LeaderboardModal.tsx`
 
+## [2026-01-18] BaseApp Integration
+- **Metadata**: Added `base:app_id` to `src/app/layout.tsx` to enable BaseApp Mini App integration.
+
