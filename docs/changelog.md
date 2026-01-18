@@ -135,5 +135,5 @@
 - **Docs**: Populated `docs/API_SDK_BASE_APP.txt` with compatibility guide and technical details.
 - **Providers**: Added `isBaseApp` detection logic to identify Base App environment (Client ID 309857).
 - **Transactions**: Implemented `wallet_sendCalls` (EIP-5792) in `ShopModal.tsx` and `AchievementsModal.tsx` strictly for Base App users to ensure transaction reliability and Smart Wallet compatibility.
-- **Shop & Achievements**: Added transaction status monitoring for Base App flow (waiting for calls confirmation) alongside legacy support.
+- **Manifest**: Made all manifest URLs dynamic (relative to host or `NEXT_PUBLIC_URL`) to fix "Manifest not found" errors on Vercel preview environments.
 - **Lint**: Fixed type issues in `ShopModal` related to hook parameters.

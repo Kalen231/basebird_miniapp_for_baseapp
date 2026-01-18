@@ -1,15 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+    // 1. Get host from request headers or env
+    const host = request.headers.get('host');
+    const protocol = host?.includes('localhost') ? 'http' : 'https';
+
     // URL Resolution priorities:
     // 1. NEXT_PUBLIC_URL (set manually in Vercel or .env)
-    // 2. VERCEL_PROJECT_PRODUCTION_URL (Auto-set by Vercel for production deployments)
-    // 3. VERCEL_URL (Auto-set by Vercel for preview/dev - often lacks https://)
-    // 4. Hardcoded fallback
-
-    // URL Resolution priorities:
-    // 1. Hardcoded production URL to ensure valid manifest
-    const appUrl = 'https://basebird.space';
+    // 2. Fallback to current host
+    const appUrl = process.env.NEXT_PUBLIC_URL || `${protocol}://${host}`;
 
     const config = {
         accountAssociation: {

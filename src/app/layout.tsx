@@ -7,7 +7,7 @@ import DebugMonitor from "@/components/DebugMonitor";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const appUrl = "https://basebird.space";
+const appUrl = process.env.NEXT_PUBLIC_URL || "https://basebird.space";
 
 const miniappEmbed = {
     version: "1",
