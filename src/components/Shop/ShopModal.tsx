@@ -51,13 +51,13 @@ export default function ShopModal({
             // 1. Send Transaction using wallet_sendCalls (EIP-5792)
             // This works on both Farcaster and Base App
             // For mintable birds (isMintable=true), send 0 ETH - user only pays gas
-            const transactionValue = isMintable ? parseEther("0") : parseEther(priceInEth);
+            const transactionValue = isMintable ? BigInt(0) : parseEther(priceInEth);
             const result = await sendCallsAsync({
                 calls: [{
                     to: adminWallet as `0x${string}`,
                     value: transactionValue,
-                    // Base App requires data field for zero-value transactions
-                    data: isMintable ? toHex(`mint:${skuId}`) : undefined,
+                    // Data field for transaction tracking
+                    data: toHex(`bird:${skuId}`),
                 }],
             });
 
