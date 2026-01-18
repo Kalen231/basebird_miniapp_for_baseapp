@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useSendCalls } from 'wagmi/experimental';
+import { useSendTransaction } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { parseEther, toHex } from 'viem';
 import { useMutation } from '@tanstack/react-query';
 import { useFarcasterContext } from '@/components/Providers';
@@ -26,7 +27,7 @@ export default function ShopModal({
     onEquip,
     onPurchaseSuccess
 }: ShopModalProps) {
-    const { sendCallsAsync } = useSendCalls();
+    const { sendTransactionAsync } = useSendTransaction();
     const { fid } = useFarcasterContext();
     const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET || '0xf8d2b260F0c91ef80659acFAAA8a868C34dd4d71';
     console.log('[ShopModal] Admin wallet:', adminWallet);
@@ -48,21 +49,16 @@ export default function ShopModal({
             // But useSendTransaction usually throws if not connected.
 
 
-            // 1. Send Transaction using wallet_sendCalls (EIP-5792)
-            // This works on both Farcaster and Base App
+            // 1. Send Transaction
             // For mintable birds (isMintable=true), send 0 ETH - user only pays gas
-            const transactionValue = isMintable ? BigInt(0) : parseEther(priceInEth);
-            const result = await sendCallsAsync({
-                calls: [{
-                    to: adminWallet as `0x${string}`,
-                    value: transactionValue,
-                    // Data field for transaction tracking
-                    data: toHex(`bird:${skuId}`),
-                }],
+            const transactionValue = isMintable ? parseEther("0") : parseEther(priceInEth);
+            const hash = await sendTransactionAsync({
+                to: adminWallet as `0x${string}`,
+                value: transactionValue,
             });
 
-            // sendCalls returns batch id, use it as hash for verification
-            const hash = result as `0x${string}`;
+            // 2. Wait for confirmation
+            await waitForTransactionReceipt(config, { hash });
 
             // 3. Verify on backend
             const response = await fetch('/api/verify-transaction', {
