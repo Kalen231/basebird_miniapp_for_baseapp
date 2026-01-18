@@ -15,7 +15,7 @@ const miniappEmbed = {
     button: {
         title: "Play BaseBird",
         action: {
-            type: "launch_frame",
+            type: "launch_miniapp",
             name: "BaseBird",
             url: appUrl,
             splashImageUrl: `${appUrl}/splash_new.png`,

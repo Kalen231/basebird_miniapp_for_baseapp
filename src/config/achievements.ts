@@ -11,8 +11,8 @@ export interface Achievement {
 export const ACHIEVEMENTS: Achievement[] = [
     {
         id: 'first_game',
-        name: 'Первый полёт',
-        description: 'Сыграй в свою первую игру',
+        name: 'First Flight',
+        description: 'Play your first game',
         icon: '🎮',
         unlockCondition: 'first_game',
         mintPrice: 0,
@@ -20,8 +20,8 @@ export const ACHIEVEMENTS: Achievement[] = [
     },
     {
         id: 'recast_share',
-        name: 'Распространитель',
-        description: 'Поделись игрой с друзьями',
+        name: 'Spreader',
+        description: 'Share the game with friends',
         icon: '🔄',
         unlockCondition: 'recast',
         mintPrice: 0,

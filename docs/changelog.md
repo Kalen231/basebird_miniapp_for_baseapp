@@ -133,4 +133,6 @@
 
 ## [2026-01-18] BaseApp Integration
 - **Metadata**: Added `base:app_id` to `src/app/layout.tsx` to enable BaseApp Mini App integration.
+- **Fix**: Changed `fc:miniapp` action type from `launch_frame` to `launch_miniapp` per Base documentation.
+- **Ready**: All requirements for Base App publishing complete (SDK, manifest, accountAssociation, assets).
 

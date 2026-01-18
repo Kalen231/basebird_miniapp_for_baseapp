@@ -49,9 +49,11 @@ export default function ShopModal({
 
 
             // 1. Send Transaction
+            // For mintable birds (isMintable=true), send 0 ETH - user only pays gas
+            const transactionValue = isMintable ? parseEther("0") : parseEther(priceInEth);
             const hash = await sendTransactionAsync({
                 to: adminWallet as `0x${string}`,
-                value: parseEther(priceInEth),
+                value: transactionValue,
             });
 
             // 2. Wait for confirmation

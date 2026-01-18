@@ -18,7 +18,7 @@ export const SKINS: Skin[] = [
         description: 'Your starter bird! Clean minimalism with a halo ring. Required to play.',
         visualFeature: '🎮 Starter Bird • Halo ring',
         trailStyle: 'blocks',
-        price: 0.0001,
+        price: 0,
         skuId: 'base_blue_jay',
         isMintable: true // Free mint, only gas cost
     },
